@@ -1,0 +1,5 @@
+scripts/customblocks_1_extractblockdefs.sh $@
+scripts/customblocks_2_blockseperatejson.sh
+scripts/customtexture_1_download.sh
+scripts/customtexture_2_rip.sh
+scripts/converttomtmod_1.sh
