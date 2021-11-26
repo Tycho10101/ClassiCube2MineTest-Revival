@@ -19,5 +19,6 @@ $ pip install "nbtlib==1.12.1"
 
 ### To-do 
 
+* Animated Blocks (not implemented yet)
 * Climbable (not implemented yet)
 * World (not implemented yet)
