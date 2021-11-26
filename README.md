@@ -17,8 +17,8 @@ $ pip install "nbtlib==1.12.1"
 * Sky Color
 * Cloud Color
 
-### To-do 
+### Not Implemented 
 
-* Animated Blocks (not implemented yet)
-* Climbable (not implemented yet)
-* World (not implemented yet)
+* Animated Blocks
+* Climbable
+* World
