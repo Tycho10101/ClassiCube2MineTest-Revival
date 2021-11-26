@@ -18,11 +18,6 @@ mkdir extracted/texture_block
 BlockNumber=1
 while [ $CurrentBlockY -le $BlockSizeY ]; 
 do 
-	if (( $CurrentBlockX > $BlockSizeX )); then
-	CurrentBlockY=$(($CurrentBlockY+1))
-	CurrentBlockX=1
-    fi
-
 	echo $CurrentBlockX $CurrentBlockY $BlockNumber
 	PixelCropX=$(expr $CurrentBlockX \* 16)
 	PixelCropX=$(expr $PixelCropX - 16)
@@ -32,4 +27,8 @@ do
 
 	BlockNumber=$(($BlockNumber+1))
 	CurrentBlockX=$(($CurrentBlockX+1))
+	if (( $CurrentBlockX > $BlockSizeX )); then
+	CurrentBlockY=$(($CurrentBlockY+1))
+	CurrentBlockX=1
+    fi
 done
