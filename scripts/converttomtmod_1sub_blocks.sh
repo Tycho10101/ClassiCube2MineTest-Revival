@@ -66,16 +66,16 @@ TextureNum6=$(expr $Textures256_6 \* 256 + $TextureNum6)
 
 CoordsString=$(python3 scripts/converttomtmod_1sub_blocksize.py $Coords1 $Coords2 $Coords3 $Coords4 $Coords5 $Coords6)
 
-echo 'minetest.register_node("classicubeconverted:'$ID'", {'
-echo '	description =  "'$BlockName'",'
-echo '	inventory_image = minetest.inventorycube("'$TextureNum1'.png"),'
+echo 'minetest.register_node("'$TextureName':'$ID'", {'
+echo '	description =  "'$TextureName' '$BlockName'",'
+echo '	inventory_image = minetest.inventorycube("'$TextureNum1'.png", "'$TextureNum2'.png", "'$TextureNum3'.png"),'
 
 if [ "$Shape" != 0 ]; then
-	if [ "$CollideType" = 0 ] || [ "$CollideType" = 1 ] || [ "$CollideType" = 2 ] || [ "$CollideType" = 3 ];
+	if [ "$CollideType" = 0 ] || [ "$CollideType" = 2 ] || [ "$CollideType" = 3 ] || [ "$CollideType" = 7 ];
 		then
 		echo '	drawtype = "nodebox",'
 		fi
-	if [ "$CollideType" = 4 ] || [ "$CollideType" = 5 ];
+	if [ "$CollideType" = 1 ] || [ "$CollideType" = 4 ] || [ "$CollideType" = 5 ];
 		then
 		echo '	drawtype = "liquid",'
 		fi
@@ -91,23 +91,31 @@ if [ "$Shape" != 0 ]; then
 
 echo '	paramtype = "light",'
 
-if [ "$CollideType" = 2 ] || [ "$CollideType" = 3 ]; then
+if [ "$CollideType" = 2 ] || [ "$CollideType" = 3 ] || [ "$CollideType" = 4 ]; then
 	echo '	walkable = true,'
 	echo '	pointable = true,'
 	echo '	diggable = true,'
 	echo '	buildable_to = false,'
 	fi
-if [ "$CollideType" = 0 ] || [ "$CollideType" = 4 ] || [ "$CollideType" = 5 ]; then
+if [ "$CollideType" = 1 ]; then
+	echo '	walkable = false,'
+	echo '	pointable = true,'
+	echo '	diggable = true,'
+	echo '	buildable_to = true,'
+	echo '	climbable = true,'
+	fi
+if [ "$CollideType" = 0 ] || [ "$CollideType" = 1 ] || [ "$CollideType" = 5 ] || [ "$CollideType" = 6 ]; then
 	echo '	walkable = false,'
 	echo '	pointable = false,'
 	echo '	diggable = false,'
 	echo '	buildable_to = true,'
 	fi
-if [ "$CollideType" = 1 ]; then
+if [ "$CollideType" = 7 ]; then
 	echo '	walkable = false,'
 	echo '	pointable = true,'
 	echo '	diggable = true,'
 	echo '	buildable_to = false,'
+	echo '	climbable = true,'
 	fi
 
 echo '	is_ground_content = false,'
@@ -153,6 +161,23 @@ if [ "$CollideType" = 5 ] || [ "$CollideType" = 6 ]; then
 	echo '	drowning = 1,'
 	echo '	liquidtype = "source",'
 	echo '	liquid_viscosity = 1,'
-	echo '	groups = {water=3, liquid=3, puts_out_fire=1},'
 	fi
+
+if [ "$Shape" != 0 ]; then
+	if [ "$CollideType" = 0 ] || [ "$CollideType" = 2 ] || [ "$CollideType" = 3 ] || [ "$CollideType" = 4 ] || [ "$CollideType" = 7 ];
+		then
+		echo '	groups = {cracky = 3, oddly_breakable_by_hand = 3},'
+		fi
+	if [ "$CollideType" = 5 ];
+		then
+		echo '	groups = {water = 3, liquid = 3, puts_out_fire= 1},'
+		fi
+	if [ "$CollideType" = 6 ];
+		then
+		echo '	groups = {liquid = 2},'
+		fi
+	else
+		echo '	groups = {cracky = 3, oddly_breakable_by_hand = 3},'
+	fi	
+
 echo '})'
