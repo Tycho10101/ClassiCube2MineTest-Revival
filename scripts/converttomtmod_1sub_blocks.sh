@@ -121,10 +121,13 @@ if [ "$CollideType" = 7 ]; then
 echo '	is_ground_content = false,'
 echo '	use_texture_alpha = "clip",'
 echo '	drop = "",'
-echo '	post_effect_color = {a=128, r='$FogR', g='$FogG', b='$FogB'},'
 
-if [ "$TransmitsLight" = 1 ]; then
-	echo '	light_source = 14,'
+if [ "$FogR" != 0 ]; then
+	if [ "$FogG" != 0 ]; then
+		if [ "$FogB" != 0 ]; then
+			echo '	post_effect_color = {a=128, r='$FogR', g='$FogG', b='$FogB'},'
+			fi
+		fi
 	fi
 
 echo '	node_box = {'
