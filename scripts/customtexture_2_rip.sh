@@ -1,7 +1,7 @@
 
 mkdir extracted_custom/textures
 cd extracted_custom/textures
-echo ClassiCube2Minetest: Texture: 1: Extract Texture ZIP
+echo ClassiCube2Minetest: Texture: Extract Texture ZIP
 7za x ../texturezip/*.zip 
 cd ../../
 
@@ -24,7 +24,7 @@ do
 	PixelCropX=$(expr $PixelCropX - 16)
 	PixelCropY=$(expr $CurrentBlockY \* 16)
 	PixelCropY=$(expr $PixelCropY - 16)
-	echo ClassiCube2Minetest: Texture: 2: Create Seperate Texture for $BlockNumber: $CurrentBlockX $CurrentBlockY 
+	echo ClassiCube2Minetest: Texture: Create Seperate Texture for $BlockNumber: $CurrentBlockX $CurrentBlockY 
 	convert extracted_custom/textures/terrain.png -crop 16x16+$PixelCropX+$PixelCropY extracted_custom/texture_block/$BlockNumber.png
 	BlockNumber=$(($BlockNumber+1))
 	CurrentBlockX=$(($CurrentBlockX+1))
@@ -32,5 +32,4 @@ do
 	CurrentBlockY=$(($CurrentBlockY+1))
 	CurrentBlockX=1
     fi
-
 done
