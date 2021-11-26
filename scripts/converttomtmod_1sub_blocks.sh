@@ -8,8 +8,6 @@ function signedtounsigned (
 	echo $output
 )
 
-cat extracted_custom/blocks/Block00A4.json | jq '.ID2'
-
 ID=$(cat $@ | jq '.ID2')
 CollideType=$(cat $@ | jq '.CollideType')
 Speed=$(cat $@ | jq '.Speed')
