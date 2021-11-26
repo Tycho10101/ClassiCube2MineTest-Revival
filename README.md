@@ -5,6 +5,7 @@ Converts Classicube Blocks (for now) to minetest
 ### Required 
 
 * Bash
+* Python 3.x
 * nbtlib (python) for nbt command
 
 ```bash
