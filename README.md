@@ -1,5 +1,7 @@
 # ClassiCube2Minetest
 
+Converts Classicube Blocks (for now) to minetest
+
 ### Required 
 
 * Bash
@@ -8,3 +10,13 @@
 ```bash
 $ pip install "nbtlib==1.12.1"
 ```
+
+### Features
+
+* Sky Color
+* Cloud Color
+
+### To-do 
+
+* Climbable (not implemented yet)
+* World (not implemented yet)
