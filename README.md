@@ -20,5 +20,4 @@ $ pip install "nbtlib==1.12.1"
 ### Not Implemented 
 
 * Animated Blocks
-* Climbable
 * World
