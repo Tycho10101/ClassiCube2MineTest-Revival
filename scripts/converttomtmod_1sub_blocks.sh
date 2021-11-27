@@ -118,6 +118,18 @@ if [ "$CollideType" = 7 ]; then
 	fi
 
 echo '	is_ground_content = false,'
+
+MTLightBlock=0
+if [ "$TransmitsLight" = 1 ]; then
+	MTLightBlock=1
+	fi
+if [ "$FullBright" = 1 ]; then
+	MTLightBlock=1
+	fi
+if [ "$MTLightBlock" = 1 ]; then
+	echo '	light_source = 14,'
+	fi
+
 echo '	use_texture_alpha = "clip",'
 echo '	drop = "",'
 if [ "$FogR" != 0 ]; then
@@ -128,10 +140,10 @@ if [ "$FogR" != 0 ]; then
 		fi
 	fi
 
-if [ "$Shape" != 0 ]; then
+if [ "$Shape" = 0 ]; then
 	echo '	selection_box = {'
 	echo '		type = "fixed",'
-	echo '		fixed = {'$CoordsString'}'
+	echo '		fixed = {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},'
 	echo '	},'
 	fi
 
