@@ -2,7 +2,7 @@
 mkdir extracted_custom/textures
 cd extracted_custom/textures
 echo ClassiCube2Minetest: Texture: Extract Texture ZIP
-7za x ../texturezip/*.zip 
+7za x ../texturezip/texturezip.zip 
 cd ../../
 
 mkdir extracted_custom/texture_block
@@ -32,4 +32,5 @@ do
 	CurrentBlockY=$(($CurrentBlockY+1))
 	CurrentBlockX=1
     fi
+
 done
