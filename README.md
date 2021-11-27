@@ -14,8 +14,8 @@ $ pip install "nbtlib==1.12.1"
 
 ### Features
 
-* Sky Color
-* Cloud Color
+* Sky & Cloud Color
+* Skybox
 
 ### Not Implemented 
 
