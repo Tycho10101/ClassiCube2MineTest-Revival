@@ -19,8 +19,8 @@ CloudColor_B=$(cat extracted_custom/Metadata.json | jq '.CPE | .EnvColors | .Clo
 
 echo 'minetest.register_on_joinplayer(function(player)' >> output/worldmods/$1/init.lua
 
-
 if [ -f 'extracted_custom/textures/skybox.png' ]; then
+	echo ClassiCube2Minetest: Convert to MT Mod: Converting Skybox...
 	echo '	player:set_sky({' >> output/worldmods/$1/init.lua
 	echo '		type = "skybox",' >> output/worldmods/$1/init.lua
 	echo '		textures = {"skybox1.png", "skybox2.png^[transformR180", "skybox4.png", "skybox6.png^[transformR180", "skybox3.png^[transformR180", "skybox5.png^[transformR180"},' >> output/worldmods/$1/init.lua
@@ -29,7 +29,6 @@ if [ -f 'extracted_custom/textures/skybox.png' ]; then
 	echo '	player:set_sun({visible = false, sunrise_visible = false})' >> output/worldmods/$1/init.lua
 	echo '	player:set_moon({visible = false})' >> output/worldmods/$1/init.lua
 	echo '	player:set_stars({visible = false})' >> output/worldmods/$1/init.lua
-
 else
 	echo '	player:set_sky({r='$SkyColor_R', g='$SkyColor_G', b='$SkyColor_B'}, "plain", {})' >> output/worldmods/$1/init.lua
 fi
