@@ -140,13 +140,6 @@ if [ "$FogR" != 0 ]; then
 		fi
 	fi
 
-if [ "$Shape" = 0 ]; then
-	echo '	selection_box = {'
-	echo '		type = "fixed",'
-	echo '		fixed = {-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},'
-	echo '	},'
-	fi
-
 echo '	node_box = {'
 echo '		type = "fixed",'
 echo '		fixed = {'$CoordsString'},'
