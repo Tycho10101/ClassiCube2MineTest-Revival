@@ -31,7 +31,6 @@ BlockDraw=$(cat $@ | jq '.BlockDraw')
 FogR_signed=$(cat $@ | jq '.Fog[0]')
 FogG_signed=$(cat $@ | jq '.Fog[1]')
 FogB_signed=$(cat $@ | jq '.Fog[2]')
-#Coords=$(cat $@ | jq '.Coords')
 Coords1=$(cat $@ | jq '.Coords[0]')
 Coords2=$(cat $@ | jq '.Coords[1]')
 Coords3=$(cat $@ | jq '.Coords[2]')
@@ -121,13 +120,19 @@ if [ "$CollideType" = 7 ]; then
 echo '	is_ground_content = false,'
 echo '	use_texture_alpha = "clip",'
 echo '	drop = "",'
-
 if [ "$FogR" != 0 ]; then
 	if [ "$FogG" != 0 ]; then
 		if [ "$FogB" != 0 ]; then
 			echo '	post_effect_color = {a=128, r='$FogR', g='$FogG', b='$FogB'},'
 			fi
 		fi
+	fi
+
+if [ "$Shape" != 0 ]; then
+	echo '	selection_box = {'
+	echo '		type = "fixed",'
+	echo '		fixed = {'$CoordsString'}'
+	echo '	},'
 	fi
 
 echo '	node_box = {'
