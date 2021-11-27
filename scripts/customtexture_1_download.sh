@@ -2,4 +2,4 @@ TextureURLParsed=$(cat extracted_custom/Metadata.json | jq '.CPE | .EnvMapAppear
 TextureURL=$(echo $TextureURLParsed | sed 's/"//g' )
 echo ClassiCube2Minetest: Texture: Download Texture ZIP
 mkdir extracted_custom/texturezip
-wget $TextureURL -P extracted_custom/texturezip
+wget $TextureURL -O extracted_custom/texturezip/texturezip.zip
