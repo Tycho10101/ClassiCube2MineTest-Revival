@@ -119,14 +119,7 @@ if [ "$CollideType" = 7 ]; then
 
 echo '	is_ground_content = false,'
 
-MTLightBlock=0
-if [ "$TransmitsLight" = 1 ]; then
-	MTLightBlock=1
-	fi
 if [ "$FullBright" = 1 ]; then
-	MTLightBlock=1
-	fi
-if [ "$MTLightBlock" = 1 ]; then
 	echo '	light_source = 14,'
 	fi
 
