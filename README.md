@@ -14,10 +14,11 @@ $ pip install "nbtlib==1.12.1"
 
 ### Features
 
+* World
 * Sky & Cloud Color
 * Skybox
 
 ### Not Implemented 
 
 * Animated Blocks
-* World
+
