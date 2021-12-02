@@ -159,7 +159,7 @@ while ConversionComplete == 0:
   ByteRepeat = 1  
   while ByteRepeat <= 4096:  
       ByteRepeat += 1  
-      writeU8(zlibnodedata, 0)  
+      writeU8(zlibnodedata, 15)  
     
   ByteRepeat = 1  
   while ByteRepeat <= 4096:  
