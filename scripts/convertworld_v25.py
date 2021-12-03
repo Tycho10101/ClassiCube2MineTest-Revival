@@ -1,5 +1,6 @@
 import nbtlib
 import math
+import numpy
 from nbtlib import parse_nbt, Path
 from nbtlib.tag import String, List, Compound, IntArray, ByteArray
 from numpy import int64
@@ -49,28 +50,17 @@ def bytesToInt(b):
 def getBlockAsInteger(Xval, Yval, Zval):
     return int64(Zval*16777216 + Yval*4096 + Xval)
 
-def getclassicubeblock(blockposX, blockposY, blockposZ):
+def getclassicubeblock(blockposX, blockposZ, blockposY):
   global CC_BlockID
+  CC_BlockID = 0
   if blockposX < CC_RealWorldSizeX:
     if blockposY < CC_RealWorldSizeY:
       if blockposZ < CC_RealWorldSizeZ:
-        CC_BlockNumber = blockposX + blockposY * CC_RealWorldSizeY + blockposZ*CC_RealWorldSizeY*CC_RealWorldSizeZ
-        CC_BlocksUnsigned = CC_Blocks[CC_BlockNumber] % 2**8
-        CC_BlockID = CC_BlocksUnsigned + CC_BlocksHighNum[CC_BlockNumber] * 256
-  if blockposX > CC_WorldSizeX:
-    CC_BlockID = 0
-  if blockposY > CC_WorldSizeY:
-    CC_BlockID = 0
-  if blockposZ > CC_WorldSizeZ:
-    CC_BlockID = 0
+        CC_BlockID = CC_Blocks_3D[blockposY][blockposZ][blockposX]
 
 CC_WorldFile = nbtlib.load(ClassicWorld)
 
 CC_WorldFilePart = CC_WorldFile['ClassicWorld'] 
-CC_Blocks = CC_WorldFilePart['BlockArray'] 
-CC_BlocksHighNum = CC_WorldFilePart['BlockArray2']
-
-CC_BlockNumber = 0
 
 CC_RealWorldSizeX = int(CC_WorldFilePart['X'])
 CC_RealWorldSizeY = int(CC_WorldFilePart['Y'])
@@ -79,6 +69,11 @@ CC_RealWorldSizeZ = int(CC_WorldFilePart['Z'])
 CC_WorldSizeX = CC_RealWorldSizeX - 1
 CC_WorldSizeY = CC_RealWorldSizeY - 1
 CC_WorldSizeZ = CC_RealWorldSizeZ - 1
+
+CC_Blocks = numpy.array(CC_WorldFilePart['BlockArray']) % 2**8 + numpy.array(CC_WorldFilePart['BlockArray2']) * 256
+CC_Blocks_3D = CC_Blocks.reshape((CC_RealWorldSizeY,CC_RealWorldSizeZ,CC_RealWorldSizeX))
+
+print(str(CC_RealWorldSizeX) + ' ' + str(CC_RealWorldSizeY) + ' ' + str(CC_RealWorldSizeZ))
 
 def round_down(n, decimals=0):
     multiplier = 10 ** decimals
@@ -218,9 +213,3 @@ while ConversionComplete == 0:
   
 conn.commit()
 conn.close()
-
-
-
-
-
-
