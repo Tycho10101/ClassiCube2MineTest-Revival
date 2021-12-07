@@ -39,7 +39,7 @@ echo '	})' >> output/worldmods/$1/init.lua
 echo 'end)' >> output/worldmods/$1/init.lua
 
 echo ClassiCube2Minetest: Convert to MT Mod: Converting Blocks...
-find extracted_custom/blocks/. -name "*.json*" -exec scripts/converttomtmod_1sub_blocks.sh {} \; >> output/worldmods/$1/init.lua
+find extracted_custom/blocks/. -name "*.json*" -exec python3 scripts/converttomtmod_1sub_blocks.py {} $TextureName \; >> output/worldmods/$1/init.lua
 
 mkdir output/worldmods/$1/textures
 
