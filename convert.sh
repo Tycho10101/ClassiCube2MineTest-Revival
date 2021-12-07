@@ -12,3 +12,4 @@ scripts/customblocks_2_blockseperatejson.sh
 scripts/customtexture_1_download.sh
 scripts/customtexture_2_rip.sh
 scripts/converttomtmod_1.sh $1
+python3 scripts/convertworld_v25.py "$1" ${@:2}
