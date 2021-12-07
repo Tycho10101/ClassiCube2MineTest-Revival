@@ -23,12 +23,12 @@ Textures256_3 = TexturesFull[8] % 2**8
 Textures256_4 = TexturesFull[9] % 2**8 
 Textures256_5 = TexturesFull[10] % 2**8 
 Textures256_6 = TexturesFull[11] % 2**8 
-TextureNum1 = TexturesFull[0] % 2**8 + Textures256_1
-TextureNum2 = TexturesFull[1] % 2**8 + Textures256_2
-TextureNum3 = TexturesFull[2] % 2**8 + Textures256_3
-TextureNum4 = TexturesFull[3] % 2**8 + Textures256_4
-TextureNum5 = TexturesFull[4] % 2**8 + Textures256_5
-TextureNum6 = TexturesFull[5] % 2**8 + Textures256_6
+TextureNum1 = TexturesFull[0] % 2**8 + Textures256_1 * 256
+TextureNum2 = TexturesFull[1] % 2**8 + Textures256_2 * 256
+TextureNum3 = TexturesFull[2] % 2**8 + Textures256_3 * 256
+TextureNum4 = TexturesFull[3] % 2**8 + Textures256_4 * 256
+TextureNum5 = TexturesFull[4] % 2**8 + Textures256_5 * 256
+TextureNum6 = TexturesFull[5] % 2**8 + Textures256_6 * 256
 TransmitsLight = BlockFileData["TransmitsLight"]
 WalkSound = BlockFileData["WalkSound"]
 FullBright = BlockFileData["FullBright"]
@@ -79,8 +79,8 @@ if Shape != 0:
     if CollideType != 1:
     	if CollideType == 4 or CollideType == 5:
         	print('\tdrawtype = "liquid",')
-else:
-    print('\tdrawtype = "plantlike",')
+    else:
+        print('\tdrawtype = "plantlike",')
 
 if Shape != "0":
     print('\ttiles = { "' + str(TextureNum1) + '.png", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png", "' + str(TextureNum4) + '.png", "' + str(TextureNum6) + '.png", "' + str(TextureNum5) + '.png" },')
@@ -88,8 +88,7 @@ else:
     print('\ttiles = { "' + TextureNum1 + '.png" },')
 print('\tparamtype = "light",')
 
-if CollideType != "2":
-    if CollideType == "3" or CollideType == "4":
+if CollideType != "2" or CollideType == "3" or CollideType == "4":
     	print('\twalkable = true,')
     	print('\tpointable = true,')
     	print('\tdiggable = true,')
@@ -102,8 +101,7 @@ if CollideType == "1":
     print('\tbuildable_to = true,')
     print('\tclimbable = true,')
 
-if CollideType != "0":
-    if CollideType == "1" or CollideType == "5" or CollideType == "6":
+if CollideType != "0" or CollideType == "1" or CollideType == "5" or CollideType == "6":
     	print('\twalkable = false,')
     	print('\tpointable = false,')
     	print('\tdiggable = false,')
