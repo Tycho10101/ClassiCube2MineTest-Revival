@@ -83,6 +83,8 @@ MT_WorldSizeX = int(round_down(CC_RealWorldSizeX / 16)) + 1
 MT_WorldSizeY = int(round_down(CC_RealWorldSizeY / 16)) + 1
 MT_WorldSizeZ = int(round_down(CC_RealWorldSizeZ / 16)) + 1
 
+MT_HalfWorldSizeY = int(round_down(CC_RealWorldSizeY / 2))
+
 MT_CurrentChunkX = 0
 MT_CurrentChunkY = 0
 MT_CurrentChunkZ = 0
@@ -196,7 +198,7 @@ while ConversionComplete == 0:
 
 
   MT_RealCurrentChunkX = MT_CurrentChunkX*-1 + MT_WorldSizeX
-  MT_Pos = getBlockAsInteger(MT_RealCurrentChunkX, MT_CurrentChunkY, MT_CurrentChunkZ)
+  MT_Pos = getBlockAsInteger(MT_RealCurrentChunkX, MT_CurrentChunkY - MT_HalfWorldSizeY, MT_CurrentChunkZ)
   cur.execute("INSERT INTO blocks VALUES (?,?)", (int(MT_Pos), mapblockdata.getvalue()))
   if MT_WorldSizeX <= MT_CurrentChunkX:
     MT_CurrentChunkX = 0
