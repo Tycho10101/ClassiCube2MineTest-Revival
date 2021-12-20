@@ -68,27 +68,33 @@ MaxX = MaxX - 0.5
 MaxY = MaxY - 0.5
 MaxZ = MaxZ - 0.5
 
+MinX = MinX * -1
+MaxX = MaxX * -1
+
 print('minetest.register_node("' + TextureName + ':' + str(ID) + '", {')
 print('\tdescription =  "' + TextureName + ' ' + BlockName + '",')
 print('\tinventory_image = minetest.inventorycube("' + str(TextureNum1) + '.png", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png"),')
 
-if Shape != 0:
-    if CollideType == 0:
-        print('\tdrawtype = "nodebox",')
-    if CollideType == 1:
-        print('\tdrawtype = "liquid",')
-    if CollideType == 2:
-        print('\tdrawtype = "nodebox",')
-    if CollideType == 3:
-        print('\tdrawtype = "nodebox",')
-    if CollideType == 7:
-        print('\tdrawtype = "nodebox",')
-    if CollideType == 4:
-        print('\tdrawtype = "liquid",')
-    if CollideType == 5:
-        print('\tdrawtype = "liquid",')
+if BlockDraw != 4:
+    if Shape != 0:
+        if CollideType == 0:
+            print('\tdrawtype = "nodebox",')
+        if CollideType == 1:
+            print('\tdrawtype = "nodebox",')
+        if CollideType == 2:
+            print('\tdrawtype = "nodebox",')
+        if CollideType == 3:
+            print('\tdrawtype = "nodebox",')
+        if CollideType == 7:
+            print('\tdrawtype = "nodebox",')
+        if CollideType == 4:
+            print('\tdrawtype = "nodebox",')
+        if CollideType == 5:
+            print('\tdrawtype = "nodebox",')
+    else:
+        print('\tdrawtype = "plantlike",')
 else:
-    print('\tdrawtype = "plantlike",')
+    print('\tdrawtype = "airlike",')
 
 if Shape != 0:
     print('\ttiles = { "' + str(TextureNum1) + '.png", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png", "' + str(TextureNum4) + '.png", "' + str(TextureNum6) + '.png", "' + str(TextureNum5) + '.png" },')
