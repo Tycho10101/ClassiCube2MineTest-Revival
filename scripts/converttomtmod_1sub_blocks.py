@@ -38,6 +38,7 @@ FullBright = int(BlockFileData["FullBright"])
 Shape = int(BlockFileData["Shape"])
 BlockDraw = BlockFileData["BlockDraw"]
 FogColor = numpy.array(BlockFileData['Fog'])
+FogDensity = int(FogColor[0] % 2**8)
 FogR = int(FogColor[1] % 2**8)
 FogG = int(FogColor[2] % 2**8)
 FogB = int(FogColor[3] % 2**8)
@@ -104,7 +105,7 @@ if Shape != 0:
     if (BlockName.find('#') == -1):
         print('\ttiles = { "' + str(TextureNum1) + '.png", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png", "' + str(TextureNum4) + '.png", "' + str(TextureNum6) + '.png", "' + str(TextureNum5) + '.png" },')
     else:
-        print('\ttiles = { "' + str(TextureNum1) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum2) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum3) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum4) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum6) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum5) + '.png^[colorize:#' + str(FogHex) + 'D0" },')
+        print('\ttiles = { "' + str(TextureNum1) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum2) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum3) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum4) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum6) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum5) + '.png^[multiply:#' + str(FogHex) + 'D0" },')
 else:
     print('\ttiles = { "' + str(TextureNum1) + '.png" },')
 
@@ -147,7 +148,7 @@ print('\tdrop = "",')
 if FogR != 0:
     if FogG != 0:
         if FogB != 0:
-            print('\tpost_effect_color = {a=128, r=' + str(FogR) + ', g=' + str(FogG) + ', b=' + str(FogB) + '},')
+            print('\tpost_effect_color = {a=' + str(FogDensity) + ', r=' + str(FogR) + ', g=' + str(FogG) + ', b=' + str(FogB) + '},')
 print('\tnode_box = {')
 print('\t\ttype = "fixed",')
 print('\t\tfixed = {' + str(MinX) + ", " + str(MinY) + ", " + str(MinZ) + ", " + str(MaxX) + ", " + str(MaxY) + ", " + str(MaxZ) + '},')
