@@ -2,6 +2,9 @@ import argparse
 import json
 import numpy
 
+def rgb_to_hex(rgb):
+    return '%02x%02x%02x' % rgb
+
 parser = argparse.ArgumentParser()
 parser.add_argument("BlockFile")
 parser.add_argument("TextureName")
@@ -31,13 +34,14 @@ TextureNum5 = TexturesFull[4] % 2**8 + Textures256_5 * 256
 TextureNum6 = TexturesFull[5] % 2**8 + Textures256_6 * 256
 TransmitsLight = BlockFileData["TransmitsLight"]
 WalkSound = int(BlockFileData["WalkSound"])
-FullBright = BlockFileData["FullBright"]
+FullBright = int(BlockFileData["FullBright"])
 Shape = int(BlockFileData["Shape"])
 BlockDraw = BlockFileData["BlockDraw"]
 FogColor = numpy.array(BlockFileData['Fog'])
-FogR = int(FogColor[0] % 2**8)
-FogG = int(FogColor[1] % 2**8)
-FogB = int(FogColor[2] % 2**8)
+FogR = int(FogColor[1] % 2**8)
+FogG = int(FogColor[2] % 2**8)
+FogB = int(FogColor[3] % 2**8)
+FogHex = rgb_to_hex((FogR, FogG, FogB))
 Coords = numpy.array(BlockFileData["Coords"])
 Coords1 = Coords[0]
 Coords2 = Coords[1]
@@ -97,9 +101,13 @@ else:
     print('\tdrawtype = "airlike",')
 
 if Shape != 0:
-    print('\ttiles = { "' + str(TextureNum1) + '.png", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png", "' + str(TextureNum4) + '.png", "' + str(TextureNum6) + '.png", "' + str(TextureNum5) + '.png" },')
+    if (BlockName.find('#') == -1):
+        print('\ttiles = { "' + str(TextureNum1) + '.png", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png", "' + str(TextureNum4) + '.png", "' + str(TextureNum6) + '.png", "' + str(TextureNum5) + '.png" },')
+    else:
+        print('\ttiles = { "' + str(TextureNum1) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum2) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum3) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum4) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum6) + '.png^[colorize:#' + str(FogHex) + 'D0", "' + str(TextureNum5) + '.png^[colorize:#' + str(FogHex) + 'D0" },')
 else:
     print('\ttiles = { "' + str(TextureNum1) + '.png" },')
+
 print('\tparamtype = "light",')
 
 if CollideType == 2 or CollideType == 3 or CollideType == 4:
@@ -130,8 +138,9 @@ if CollideType == 7:
 
 print('\tis_ground_content = false,')
 
-if FullBright == "1":
+if FullBright == 1:
     print('\tlight_source = 14,')
+
 print('\tuse_texture_alpha = "clip",')
 print('\tdrop = "",')
 
