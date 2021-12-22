@@ -21,4 +21,3 @@ $ pip install "nbtlib==1.12.1"
 ### Not Implemented 
 
 * Animated Blocks
-* Worlds larger then 256x256x256
