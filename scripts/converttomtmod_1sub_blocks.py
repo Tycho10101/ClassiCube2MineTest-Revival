@@ -103,9 +103,9 @@ else:
 
 if Shape != 0:
     if (BlockName.find('#') == -1):
-        print('\ttiles = { "' + str(TextureNum1) + '.png", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png", "' + str(TextureNum4) + '.png", "' + str(TextureNum6) + '.png", "' + str(TextureNum5) + '.png" },')
+        print('\ttiles = { "' + str(TextureNum1) + '.png^[transformr180", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png", "' + str(TextureNum4) + '.png", "' + str(TextureNum6) + '.png", "' + str(TextureNum5) + '.png" },')
     else:
-        print('\ttiles = { "' + str(TextureNum1) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum2) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum3) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum4) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum6) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum5) + '.png^[multiply:#' + str(FogHex) + 'D0" },')
+        print('\ttiles = { "' + str(TextureNum1) + '.png^[multiply:#' + str(FogHex) + '^[transformr180", "' + str(TextureNum2) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum3) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum4) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum6) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum5) + '.png^[multiply:#' + str(FogHex) + 'D0" },')
 else:
     print('\ttiles = { "' + str(TextureNum1) + '.png" },')
 
