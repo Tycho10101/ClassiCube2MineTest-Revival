@@ -79,9 +79,9 @@ def round_down(n, decimals=0):
     multiplier = 10 ** decimals
     return math.floor(n * multiplier) / multiplier
 
-MT_WorldSizeX = int(round_down(CC_RealWorldSizeX / 16)) + 1
-MT_WorldSizeY = int(round_down(CC_RealWorldSizeY / 16)) + 1
-MT_WorldSizeZ = int(round_down(CC_RealWorldSizeZ / 16)) + 1
+MT_WorldSizeX = int(round_down(CC_RealWorldSizeX / 16)) - 1
+MT_WorldSizeY = int(round_down(CC_RealWorldSizeY / 16)) - 1
+MT_WorldSizeZ = int(round_down(CC_RealWorldSizeZ / 16)) - 1
 
 MT_HalfWorldSizeY = int(round_down(CC_RealWorldSizeY / 2))
 
