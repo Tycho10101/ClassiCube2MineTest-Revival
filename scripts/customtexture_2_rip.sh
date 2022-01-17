@@ -7,11 +7,18 @@ mkdir extracted_custom/textures
 cd extracted_custom/textures
 echo ClassiCube2Minetest: Texture: Extract Texture ZIP
 7za x ../texturezip/texturezip.zip 
-if [ ! -f "terrain.png" ]
+if pngcheck ../texturezip/texturezip.zip > /dev/null 2>&1
 then
-    find . -type f -name 'terrain.png' -exec mv {} . \;
-    find . -type f -name 'skybox.png' -exec mv {} . \;
+	mv ../texturezip/texturezip.zip ../textures/terrain.png
+else
+    if [ ! -f "terrain.png" ]
+	then
+	    find . -type f -name 'terrain.png' -exec mv {} . \;
+	    find . -type f -name 'skybox.png' -exec mv {} . \;
+	fi
 fi
+
+
 cd ../../
 
 size=$(identify -format '%w %h' extracted_custom/textures/terrain.png)
