@@ -1,8 +1,9 @@
 mkdir output
 mkdir output/worldmods
-export TextureName=$1
+mkdir output/worldmods/$1/
+mkdir output/worldmods/$1/textures
 
-mkdir output/worldmods/$1
+export TextureName=$1
 
 rm output/worldmods/$1/init.lua
 rm output/worldmods/$1/depends.txt
@@ -21,7 +22,6 @@ echo 'minetest.register_on_joinplayer(function(player)' >> output/worldmods/$1/i
 
 if [ -f 'extracted_custom/textures/skybox.png' ]; then
 	echo ClassiCube2Minetest: Convert to MT Mod: Converting Skybox...
-	mkdir output/worldmods/$1/textures
 
 	skyboxsize=$(identify -format '%w' extracted_custom/textures/skybox.png)
 	let a=skyboxsize/4 b=skyboxsize/2 c=a+b
@@ -51,6 +51,5 @@ echo 'end)' >> output/worldmods/$1/init.lua
 
 echo ClassiCube2Minetest: Convert to MT Mod: Converting Blocks...
 find extracted_custom/blocks/. -name "*.json*" -exec python3 scripts/converttomtmod_1sub_blocks.py {} $TextureName \; >> output/worldmods/$1/init.lua
-
 
 cp extracted_custom/texture_block/* output/worldmods/$1/textures/
