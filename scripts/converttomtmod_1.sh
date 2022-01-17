@@ -25,12 +25,13 @@ if [ -f 'extracted_custom/textures/skybox.png' ]; then
 
 	skyboxsize=$(identify -format '%w' extracted_custom/textures/skybox.png)
 	let a=skyboxsize/4 b=skyboxsize/2 c=a+b
-	convert extracted_custom/textures/skybox.png -crop 1024x1024+1024+0 output/worldmods/$1/textures/skybox1.png
-    convert extracted_custom/textures/skybox.png -crop 1024x1024+2048+0 output/worldmods/$1/textures/skybox2.png
-    convert extracted_custom/textures/skybox.png -crop 1024x1024+0+1024 output/worldmods/$1/textures/skybox3.png
-    convert extracted_custom/textures/skybox.png -crop 1024x1024+1024+1024 output/worldmods/$1/textures/skybox4.png
-    convert extracted_custom/textures/skybox.png -crop 1024x1024+2048+1024 output/worldmods/$1/textures/skybox5.png
-    convert extracted_custom/textures/skybox.png -crop 1024x1024+3072+1024 output/worldmods/$1/textures/skybox6.png
+	x=x
+	convert extracted_custom/textures/skybox.png -crop $a$x$a+$a+0 output/worldmods/$1/textures/skybox1.png
+    convert extracted_custom/textures/skybox.png -crop $a$x$a+$b+0 output/worldmods/$1/textures/skybox2.png
+    convert extracted_custom/textures/skybox.png -crop $a$x$a+0+$a output/worldmods/$1/textures/skybox3.png
+    convert extracted_custom/textures/skybox.png -crop $a$x$a+$a+$a output/worldmods/$1/textures/skybox4.png
+    convert extracted_custom/textures/skybox.png -crop $a$x$a+$b+$a output/worldmods/$1/textures/skybox5.png
+    convert extracted_custom/textures/skybox.png -crop $a$x$a+$c+$a output/worldmods/$1/textures/skybox6.png
 	echo '	player:set_sky({' >> output/worldmods/$1/init.lua
 	echo '		type = "skybox",' >> output/worldmods/$1/init.lua
 	echo '		textures = {"skybox1.png", "skybox2.png^[transformR180", "skybox4.png", "skybox6.png^[transformR180", "skybox3.png^[transformR180", "skybox5.png^[transformR180"},' >> output/worldmods/$1/init.lua
