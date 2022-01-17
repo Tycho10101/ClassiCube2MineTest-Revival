@@ -99,10 +99,49 @@ MT_RealCurrentChunkX = 0
 
 ConversionComplete = 0
 
-conn = sqlite3.connect("./output/map.sqlite")
-cur = conn.cursor()
+CC_WorldSpawn = CC_WorldFilePart['Spawn']
+CC_SpawnX = int(CC_WorldSpawn['X'])
+CC_SpawnY = int(CC_WorldSpawn['Y'])
+CC_SpawnZ = int(CC_WorldSpawn['Z'])
 
-cur.execute("CREATE TABLE IF NOT EXISTS `blocks` (\
+MT_SpawnX = CC_SpawnX * -1 + CC_WorldSizeX
+
+playersfile = sqlite3.connect("./output/players.sqlite")
+playersfile_cur = playersfile.cursor()
+
+playersfile_cur.execute("CREATE TABLE `player` (`name` VARCHAR(50) NOT NULL,`pitch` NUMERIC(11, 4) NOT NULL,`yaw` NUMERIC(11, 4) NOT NULL,`posX` NUMERIC(11, 4) NOT NULL,`posY` NUMERIC(11, 4) NOT NULL,`posZ` NUMERIC(11, 4) NOT NULL,`hp` INT NOT NULL,`breath` INT NOT NULL,`creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,`modification_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY (`name`))")
+
+playersfile_cur.execute("CREATE TABLE `player_inventories` (   `player` VARCHAR(50) NOT NULL, `inv_id` INT NOT NULL,  `inv_width` INT NOT NULL, `inv_name` TEXT NOT NULL DEFAULT '',  `inv_size` INT NOT NULL,  PRIMARY KEY(player, inv_id),   FOREIGN KEY (`player`) REFERENCES player (`name`) ON DELETE CASCADE )")
+
+playersfile_cur.execute('INSERT INTO player_inventories VALUES ("singleplayer", 0, 0, "main", 32)')
+playersfile_cur.execute('INSERT INTO player_inventories VALUES ("singleplayer", 1, 0, "craft", 9)')
+playersfile_cur.execute('INSERT INTO player_inventories VALUES ("singleplayer", 2, 0, "craftpreview", 1)')
+playersfile_cur.execute('INSERT INTO player_inventories VALUES ("singleplayer", 3, 0, "craftresult", 1)')
+
+playersfile_cur.execute("CREATE TABLE `player_inventory_items` (   `player` VARCHAR(50) NOT NULL, `inv_id` INT NOT NULL,  `slot_id` INT NOT NULL, `item` TEXT NOT NULL DEFAULT '',  PRIMARY KEY(player, inv_id, slot_id),   FOREIGN KEY (`player`) REFERENCES player (`name`) ON DELETE CASCADE )")
+
+for x in range(0, 32):
+    playersfile_cur.execute('INSERT INTO player_inventory_items VALUES ("singleplayer", 0, ' + str(x) + ', " ")')
+
+for x in range(0, 9):
+    playersfile_cur.execute('INSERT INTO player_inventory_items VALUES ("singleplayer", 1, ' + str(x) + ', " ")')
+
+playersfile_cur.execute('INSERT INTO player_inventory_items VALUES ("singleplayer", 2, 0, "")')
+playersfile_cur.execute('INSERT INTO player_inventory_items VALUES ("singleplayer", 3, 0, "")')
+
+playersfile_cur.execute("CREATE TABLE `player_metadata` (    `player` VARCHAR(50) NOT NULL,    `metadata` VARCHAR(256) NOT NULL,    `value` TEXT,    PRIMARY KEY(`player`, `metadata`),    FOREIGN KEY (`player`) REFERENCES player (`name`) ON DELETE CASCADE )")
+
+spawncmd = 'INSERT INTO player VALUES ("singleplayer", 60, 0, ' + str(MT_SpawnX * 10) + ', ' + str(CC_SpawnY * 10) + ', ' + str(CC_SpawnZ * 10) + ', ' + '16, 10, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)'
+
+playersfile_cur.execute(spawncmd)
+
+playersfile.commit()
+playersfile.close()
+
+mapsqlfile = sqlite3.connect("./output/map.sqlite")
+mapsqlfilecur = mapsqlfile.cursor()
+
+mapsqlfilecur.execute("CREATE TABLE IF NOT EXISTS `blocks` (\
 `pos` INT NOT NULL PRIMARY KEY, `data` BLOB);")
 
 while ConversionComplete == 0:
@@ -206,7 +245,7 @@ while ConversionComplete == 0:
 
   MT_RealCurrentChunkX = MT_CurrentChunkX*-1 + MT_WorldSizeX
   MT_Pos = getBlockAsInteger(MT_RealCurrentChunkX, MT_CurrentChunkY, MT_CurrentChunkZ)
-  cur.execute("INSERT INTO blocks VALUES (?,?)", (int(MT_Pos), mapblockdata.getvalue()))
+  mapsqlfilecur.execute("INSERT INTO blocks VALUES (?,?)", (int(MT_Pos), mapblockdata.getvalue()))
   if MT_WorldSizeX <= MT_CurrentChunkX:
     MT_CurrentChunkX = 0
     if MT_WorldSizeY <= MT_CurrentChunkY:
@@ -220,5 +259,5 @@ while ConversionComplete == 0:
   else:
     MT_CurrentChunkX = MT_CurrentChunkX + 1
   
-conn.commit()
-conn.close()
+mapsqlfile.commit()
+mapsqlfile.close()
