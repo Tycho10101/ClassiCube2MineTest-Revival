@@ -1,5 +1,9 @@
 
+mkdir extracted_custom/
+mkdir extracted_custom/texture_block
+mkdir extracted_custom/blocks
 mkdir extracted_custom/textures
+
 cd extracted_custom/textures
 echo ClassiCube2Minetest: Texture: Extract Texture ZIP
 7za x ../texturezip/texturezip.zip 
@@ -7,11 +11,8 @@ if [ ! -f "terrain.png" ]
 then
     find . -type f -name 'terrain.png' -exec mv {} . \;
     find . -type f -name 'skybox.png' -exec mv {} . \;
-    exit 1
 fi
 cd ../../
-
-mkdir extracted_custom/texture_block
 
 size=$(identify -format '%w %h' extracted_custom/textures/terrain.png)
 TerrainSizeX=$(echo $size | cut -d ' ' -f 1)
