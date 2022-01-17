@@ -70,7 +70,14 @@ CC_WorldSizeX = CC_RealWorldSizeX - 1
 CC_WorldSizeY = CC_RealWorldSizeY - 1
 CC_WorldSizeZ = CC_RealWorldSizeZ - 1
 
-CC_Blocks = numpy.array(CC_WorldFilePart['BlockArray']) % 2**8 + numpy.array(CC_WorldFilePart['BlockArray2']) * 256
+
+if 'BlockArray2' in CC_WorldFilePart:
+  CC_Blocks = numpy.array(CC_WorldFilePart['BlockArray']) % 2**8 + numpy.array(CC_WorldFilePart['BlockArray2']) * 256
+else:
+  CC_Blocks = numpy.array(CC_WorldFilePart['BlockArray']) % 2**8
+
+
+
 CC_Blocks_3D = CC_Blocks.reshape((CC_RealWorldSizeY,CC_RealWorldSizeZ,CC_RealWorldSizeX))
 
 print(str(CC_RealWorldSizeX) + ' ' + str(CC_RealWorldSizeY) + ' ' + str(CC_RealWorldSizeZ))
