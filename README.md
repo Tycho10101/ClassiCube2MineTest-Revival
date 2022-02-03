@@ -1,6 +1,6 @@
 # ClassiCube2Minetest
 
-Converts Classicube Blocks (for now) to minetest
+Converts Classicube Maps to Minetest Worlds
 
 ### Required 
 
