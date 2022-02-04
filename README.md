@@ -6,7 +6,7 @@ Converts Classicube Maps to Minetest Worlds
 
 * Bash
 * Python 3.x
-* nbtlib (python) for nbt command
+* nbt (python) for nbt command
 
 ```bash
 $ pip install "nbtlib==1.12.1"
