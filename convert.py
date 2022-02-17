@@ -42,7 +42,7 @@ CC_BlockDefinitions = CC_Metadata['BlockDefinitions']
 BlockDef = [ [ None for y in range( 23 ) ]
              for x in range( 767 ) ]
 
-for BlockNumber in range(0, 767):
+for BlockNumber in range(0, 768):
     BlockDefHex = '{:04x}'.format(BlockNumber)
     BlockDefName = "Block" + BlockDefHex.upper()
     print(BlockDefName)
@@ -228,7 +228,7 @@ initfile.write('\t\tcolor = {r=' + str(CloudColor_R) + ', g=' + str(CloudColor_G
 initfile.write('\t})\n')
 initfile.write('end)\n')
 
-for BlockNumber in range(0, 767):
+for BlockNumber in range(0, 768):
     BlockName = BlockDef[BlockNumber][0]
     if(BlockName is not None):
         CollideType = BlockDef[BlockNumber][1]
