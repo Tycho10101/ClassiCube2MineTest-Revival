@@ -40,7 +40,7 @@ CC_BlockDefinitions = CC_Metadata['BlockDefinitions']
 
 # BlockName, CollideType, Texture1, Texture2, Texture3, Texture4, Texture5, Texture6, TransmitsLight, WalkSound, FullBright, Shape, BlockDraw, FogR, FogG, FogB, FogDensity, Coords1, Coords2, Coords3, Coords4, Coords5, Coords6
 BlockDef = [ [ None for y in range( 23 ) ]
-             for x in range( 767 ) ]
+             for x in range( 768 ) ]
 
 for BlockNumber in range(0, 768):
     BlockDefHex = '{:04x}'.format(BlockNumber)
