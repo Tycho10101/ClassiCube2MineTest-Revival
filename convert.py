@@ -45,7 +45,7 @@ BlockDef = [ [ None for y in range( 23 ) ]
 for BlockNumber in range(0, 768):
     BlockDefHex = '{:04x}'.format(BlockNumber)
     BlockDefName = "Block" + BlockDefHex.upper()
-    print(BlockDefName)
+    #print(BlockDefName)
     if BlockDefName in CC_BlockDefinitions:
         CC_Block = CC_BlockDefinitions[BlockDefName]
         ID = CC_Block["ID2"]
@@ -136,17 +136,13 @@ if os.path.isfile('./texture/zip/skybox.png'):
 
 print('ClassiCube2Minetest: Texture: Seperate')
 
-terrainimage = Image.open(r"./texture/res/terrain.png")
-
-blocktexture_width, blocktexture_height = terrainimage.size
-
-BlockSize = blocktexture_width / 16
-BlockSizeX = blocktexture_width / 16
-BlockSizeY = blocktexture_height / 16
-
+BlockTextureImage = Image.open(r"./texture/res/terrain.png")
+BlockTextureX, BlockTextureY = BlockTextureImage.size
+BlockSize = int(BlockTextureX / 16)
 CurrentBlockX = 1
 CurrentBlockY = 1
-
+MaxBlockX = BlockTextureX / BlockSize
+MaxBlockY = BlockTextureY / BlockSize
 BlockNumber = 0
 
 if not os.path.isdir('./output/'):
@@ -158,16 +154,17 @@ if not os.path.isdir('./output/worldmods/' + MapName):
 if not os.path.isdir('./output/worldmods/' + MapName + '/textures/'):
         os.makedirs('./output/worldmods/' + MapName + '/textures/')
 
-while CurrentBlockY <= BlockSizeY:  
-    PixelCropX = CurrentBlockX * BlockSize
-    PixelCropX = PixelCropX - BlockSize
-    PixelCropY = CurrentBlockY * BlockSize
-    PixelCropY = PixelCropY - BlockSize
-    blockimage = terrainimage.crop((PixelCropX, PixelCropY, PixelCropX+BlockSize, PixelCropY+BlockSize))
-    blockimage.save('./output/worldmods/' + MapName + '/textures/' + str(BlockNumber) + '.png')
+while CurrentBlockY <= MaxBlockY:
+    #print(str(BlockNumber) + " " + str(CurrentBlockX) + " " + str(CurrentBlockY))
+    BlockCropRealX = CurrentBlockX-1
+    BlockCropRealY = CurrentBlockY-1
+    BlockCropX = BlockCropRealX*BlockSize
+    BlockCropY = BlockCropRealY*BlockSize
+    BlockImage = BlockTextureImage.crop((BlockCropX, BlockCropY, BlockCropX+BlockSize, BlockCropY+BlockSize))
+    BlockImage.save('./output/worldmods/' + MapName + '/textures/' + str(BlockNumber) + '.png')
     BlockNumber = BlockNumber + 1
     CurrentBlockX = CurrentBlockX + 1
-    if CurrentBlockX > BlockSizeX:
+    if CurrentBlockX > 16:
         CurrentBlockY = CurrentBlockY + 1
         CurrentBlockX = 1
 
@@ -525,11 +522,11 @@ mapsqlfilecur.execute("CREATE TABLE IF NOT EXISTS `blocks` (\
 `pos` INT NOT NULL PRIMARY KEY, `data` BLOB);")
 
 while ConversionComplete == 0:
-  print(str(MT_CurrentChunkX) + ' ' + str(MT_CurrentChunkY) + ' ' + str(MT_CurrentChunkZ))
+  print(str(MT_CurrentChunkX) + ' ' + str(MT_CurrentChunkY) + ' ' + str(MT_CurrentChunkZ) + ' / ' + str(MT_WorldSizeX) + ' ' + str(MT_WorldSizeY) + ' ' + str(MT_WorldSizeZ))
 
 
 
-      
+
   mapblockdata = BytesIO()  
   writeU8(mapblockdata, 24)  
     
@@ -619,7 +616,7 @@ while ConversionComplete == 0:
       if BlockName == str(MapName) + ":0":  
           BlockName = 'air'  
       writeU16(mapblockdata, MT_UsedBlocksList[i])  
-      print(BlockName)  
+      #print(BlockName)  
       writeString(mapblockdata, BlockName)
 
 
