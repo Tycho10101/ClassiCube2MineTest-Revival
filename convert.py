@@ -302,7 +302,7 @@ for BlockNumber in range(0, 768):
             initfile.write('\tdrawtype = "airlike",\n')
         
         if Shape != 0:
-            if (BlockName.find('#\n') == -1):
+            if (BlockName.find('#') == -1):
                 initfile.write('\ttiles = { "' + str(TextureNum1) + '.png^[transformr180", "' + str(TextureNum2) + '.png", "' + str(TextureNum3) + '.png", "' + str(TextureNum4) + '.png", "' + str(TextureNum6) + '.png", "' + str(TextureNum5) + '.png" },\n')
             else:
                 initfile.write('\ttiles = { "' + str(TextureNum1) + '.png^[multiply:#' + str(FogHex) + '^[transformr180", "' + str(TextureNum2) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum3) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum4) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum6) + '.png^[multiply:#' + str(FogHex) + '", "' + str(TextureNum5) + '.png^[multiply:#' + str(FogHex) + 'D0" },\n')
