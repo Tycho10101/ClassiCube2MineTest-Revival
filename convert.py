@@ -250,6 +250,8 @@ for BlockNumber in range(0, 768):
         Coords4 = BlockDef[BlockNumber][20]
         Coords5 = BlockDef[BlockNumber][21]
         Coords6 = BlockDef[BlockNumber][22]
+        CoordsTable = [Coords1, Coords2, Coords3, Coords4, Coords5, Coords6]
+        print(CoordsTable)
         FogHex = rgb_to_hex((FogR, FogG, FogB))
         
         MinX = float(Coords1)
@@ -282,20 +284,21 @@ for BlockNumber in range(0, 768):
         
         if BlockDraw != 4:
             if Shape != 0:
-                if CollideType == 0:
+                if Coords1 == Coords2 == Coords3 == 0 and Coords4 == Coords5 == Coords6 == 16:
+                    if BlockDraw == 0: # fully opaque
+                        initfile.write('\tdrawtype = "normal",\n')
+                    if BlockDraw == 1: # transparent (e.g. like glass)
+                        initfile.write('\tdrawtype = "glasslike",\n')
+                    if BlockDraw == 2: # transparent but with no face culling of same neighbours (e.g. like leaves)
+                        initfile.write('\tdrawtype = "glasslike",\n')
+                    if BlockDraw == 3: # translucent, where texture's alpha is blended (e.g. like ice or water)
+                        initfile.write('\tdrawtype = "liquid",\n')
+                else:
                     initfile.write('\tdrawtype = "nodebox",\n')
-                if CollideType == 1:
-                    initfile.write('\tdrawtype = "nodebox",\n')
-                if CollideType == 2:
-                    initfile.write('\tdrawtype = "nodebox",\n')
-                if CollideType == 3:
-                    initfile.write('\tdrawtype = "nodebox",\n')
-                if CollideType == 7:
-                    initfile.write('\tdrawtype = "nodebox",\n')
-                if CollideType == 4:
-                    initfile.write('\tdrawtype = "nodebox",\n')
-                if CollideType == 5:
-                    initfile.write('\tdrawtype = "nodebox",\n')
+                    initfile.write('\tnode_box = {\n')
+                    initfile.write('\t\ttype = "fixed",\n')
+                    initfile.write('\t\tfixed = {' + str(MinX) + ", " + str(MinY) + ", " + str(MinZ) + ", " + str(MaxX) + ", " + str(MaxY) + ", " + str(MaxZ) + '},\n')
+                    initfile.write('\t},\n')
             else:
                 initfile.write('\tdrawtype = "plantlike",\n')
         else:
@@ -342,17 +345,14 @@ for BlockNumber in range(0, 768):
         if FullBright == 1:
             initfile.write('\tlight_source = 14,\n')
         
-        initfile.write('\tuse_texture_alpha = "clip",\n')
+        initfile.write('\tuse_texture_alpha = true,\n')
         initfile.write('\tdrop = "",\n')
         
         if FogR != 0:
             if FogG != 0:
                 if FogB != 0:
                     initfile.write('\tpost_effect_color = {a=' + str(FogDensity) + ', r=' + str(FogR) + ', g=' + str(FogG) + ', b=' + str(FogB) + '},\n')
-        initfile.write('\tnode_box = {\n')
-        initfile.write('\t\ttype = "fixed",\n')
-        initfile.write('\t\tfixed = {' + str(MinX) + ", " + str(MinY) + ", " + str(MinZ) + ", " + str(MaxX) + ", " + str(MaxY) + ", " + str(MaxZ) + '},\n')
-        initfile.write('\t},\n')
+
         
         if WalkSound == 1:
             initfile.write('\tsounds = default.node_sound_wood_defaults(),\n')
