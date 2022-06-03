@@ -38,14 +38,80 @@ CC_Metadata = CC_Metadata['CPE']
 print('ClassiCube2Minetest: Get BlockDefinitions')
 CC_BlockDefinitions = CC_Metadata['BlockDefinitions']
 
-# BlockName, CollideType, Texture1, Texture2, Texture3, Texture4, Texture5, Texture6, TransmitsLight, WalkSound, FullBright, Shape, BlockDraw, FogR, FogG, FogB, FogDensity, Coords1, Coords2, Coords3, Coords4, Coords5, Coords6
-BlockDef = [ [ None for y in range( 23 ) ]
+# BlockUsed, BlockName, CollideType, Texture1, Texture2, Texture3, Texture4, Texture5, Texture6, TransmitsLight, WalkSound, FullBright, Shape, BlockDraw, FogR, FogG, FogB, FogDensity, Coords1, Coords2, Coords3, Coords4, Coords5, Coords6
+
+BlockDef = [ [ None for y in range( 24 ) ]
              for x in range( 768 ) ]
+
+BlockDef[1] = [1, "Stone", 2, 1, 1, 1, 1, 1, 1, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[2] = [1, "Grass Block", 2, 0, 2, 3, 3, 3, 3, 0, 3, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[3] = [1, "Dirt", 2, 2, 2, 2, 2, 2, 2, 0, 3, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[4] = [1, "Cobblestone", 2, 16, 16, 16, 16, 16, 16, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[5] = [1, "Wood Planks", 2, 4, 4, 4, 4, 4, 4, 0, 1, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[6] = [1, "Sapling", 0, 15, 15, 15, 15, 15, 15, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[7] = [1, "Bedrock", 2, 17, 17, 17, 17, 17, 17, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[8] = [1, "Flowing Water", 5, 14, 14, 14, 14, 14, 14, 1, 0, 0, 16, 3, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[9] = [1, "Stationary Water", 5, 14, 14, 14, 14, 14, 14, 1, 0, 0, 16, 3, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[10] = [1, "Flowing Lava", 6, 30, 30, 30, 30, 30, 30, 1, 0, 1, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[11] = [1, "Stationary Lava", 6, 30, 30, 30, 30, 30, 30, 1, 0, 1, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[12] = [1, "Sand", 2, 18, 18, 18, 18, 18, 18, 0, 8, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[13] = [1, "Gravel", 2, 19, 19, 19, 19, 19, 19, 0, 8, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[14] = [1, "Gold Ore", 2, 32, 32, 32, 32, 32, 32, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[15] = [1, "Iron Ore", 2, 33, 33, 33, 33, 33, 33, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[16] = [1, "Coal Ore", 2, 34, 34, 34, 34, 34, 34, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[17] = [1, "Wood", 2, 21, 21, 20, 20, 20, 20, 0, 1, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[18] = [1, "Leaves", 2, 22, 22, 22, 22, 22, 22, 1, 3, 0, 16, 2, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[19] = [1, "Sponge", 2, 48, 48, 48, 48, 48, 48, 0, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[20] = [1, "Glass", 2, 49, 49, 49, 49, 49, 49, 1, 6, 0, 16, 1, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[21] = [1, "Red Cloth", 2, 64, 64, 64, 64, 64, 64, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[22] = [1, "Orange Cloth", 2, 65, 65, 65, 65, 65, 65, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[23] = [1, "Yellow Cloth", 2, 66, 66, 66, 66, 66, 66, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[24] = [1, "Lime Cloth", 2, 67, 67, 67, 67, 67, 67, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[25] = [1, "Green Cloth", 2, 68, 68, 68, 68, 68, 68, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[26] = [1, "Aqua Green Cloth", 2, 69, 69, 69, 69, 69, 69, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[27] = [1, "Cyan Cloth", 2, 70, 70, 70, 70, 70, 70, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[28] = [1, "Blue Cloth", 2, 71, 71, 71, 71, 71, 71, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[29] = [1, "Purple Cloth", 2, 72, 72, 72, 72, 72, 72, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[30] = [1, "Indigo Cloth", 2, 73, 73, 73, 73, 73, 73, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[31] = [1, "Violet Cloth", 2, 74, 74, 74, 74, 74, 74, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[32] = [1, "Magenta Cloth", 2, 75, 75, 75, 75, 75, 75, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[33] = [1, "Pink Cloth", 2, 76, 76, 76, 76, 76, 76, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[34] = [1, "Black Cloth", 2, 77, 77, 77, 77, 77, 77, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[35] = [1, "Gray Cloth", 2, 78, 78, 78, 78, 78, 78, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[36] = [1, "White Cloth", 2, 79, 79, 79, 79, 79, 79, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[37] = [1, "Dandelion", 0, 13, 13, 13, 13, 13, 13, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[38] = [1, "Rose", 0, 12, 12, 12, 12, 12, 12, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[39] = [1, "Brown Mushroom", 0, 29, 29, 29, 29, 29, 29, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[40] = [1, "Red Mushroom", 0, 28, 28, 28, 28, 28, 28, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[41] = [1, "Block of Gold", 2, 24, 56, 40, 40, 40, 40, 0, 5, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[42] = [1, "Block of Iron", 2, 23, 55, 39, 39, 39, 39, 0, 5, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[43] = [1, "Double Slab", 2, 6, 6, 5, 5, 5, 5, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[44] = [1, "Slab", 2, 6, 6, 5, 5, 5, 5, 0, 4, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 16, 8, 16]
+BlockDef[45] = [1, "Brick", 2, 7, 7, 7, 7, 7, 7, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[46] = [1, "TNT", 2, 9, 10, 8, 8, 8, 8, 0, 8, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[47] = [1, "Bookshelf", 2, 4, 4, 35, 35, 35, 35, 0, 1, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[48] = [1, "Moss Stone", 2, 36, 36, 36, 36, 36, 36, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[49] = [1, "Obsidian", 2, 37, 37, 37, 37, 37, 37, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[50] = [1, "Cobblestone Slab", 2, 16, 16, 16, 16, 16, 16, 0, 4, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 16, 8, 16]
+BlockDef[51] = [1, "Rope", 7, 11, 11, 11, 11, 11, 11, 1, 7, 0, 16, 1, 0, 0, 0, 0, 6, 0, 6, 10, 16, 10]
+BlockDef[52] = [1, "Sandstone", 2, 25, 57, 41, 41, 41, 41, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[53] = [1, "Snow", 0, 50, 50, 50, 50, 50, 50, 1, 9, 0, 2, 1, 0, 0, 0, 0, 0, 0, 0, 16, 2, 16]
+BlockDef[54] = [1, "Fire", 0, 38, 38, 38, 38, 38, 38, 1, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 2, 13, 11, 13]
+BlockDef[55] = [1, "Light Pink Cloth", 2, 80, 80, 80, 80, 80, 80, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[56] = [1, "Forest Green Cloth", 2, 81, 81, 81, 81, 81, 81, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[57] = [1, "Brown Cloth", 2, 82, 82, 82, 82, 82, 82, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[58] = [1, "Deep Blue Cloth", 2, 83, 83, 83, 83, 83, 83, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[59] = [1, "Turquoise Cloth", 2, 84, 84, 84, 84, 84, 84, 0, 7, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[60] = [1, "Ice", 2, 51, 51, 51, 51, 51, 51, 0, 6, 0, 16, 3, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[61] = [1, "Ceramic Tile", 2, 54, 54, 54, 54, 54, 54, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[62] = [1, "Magma", 2, 86, 86, 86, 86, 86, 86, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[63] = [1, "Pillar", 2, 26, 58, 42, 42, 42, 42, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[64] = [1, "Crate", 2, 53, 53, 53, 53, 53, 53, 0, 1, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
+BlockDef[65] = [1, "Stone Brick", 2, 52, 52, 52, 52, 52, 52, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
 
 for BlockNumber in range(0, 768):
     BlockDefHex = '{:04x}'.format(BlockNumber)
     BlockDefName = "Block" + BlockDefHex.upper()
-    #print(BlockDefName)
     if BlockDefName in CC_BlockDefinitions:
         CC_Block = CC_BlockDefinitions[BlockDefName]
         ID = CC_Block["ID2"]
@@ -76,29 +142,30 @@ for BlockNumber in range(0, 768):
         FogB = int(FogColor[3] % 2**8)
         Coords = numpy.array(CC_Block["Coords"])
 
-        BlockDef[BlockNumber][0] = str(BlockName)
-        BlockDef[BlockNumber][1] = CollideType
-        BlockDef[BlockNumber][2] = TextureNum1
-        BlockDef[BlockNumber][3] = TextureNum2
-        BlockDef[BlockNumber][4] = TextureNum3
-        BlockDef[BlockNumber][5] = TextureNum4
-        BlockDef[BlockNumber][6] = TextureNum5
-        BlockDef[BlockNumber][7] = TextureNum6
-        BlockDef[BlockNumber][8] = int(TransmitsLight)
-        BlockDef[BlockNumber][9] = WalkSound
-        BlockDef[BlockNumber][10] = FullBright
-        BlockDef[BlockNumber][11] = Shape
-        BlockDef[BlockNumber][12] = int(BlockDraw)
-        BlockDef[BlockNumber][13] = FogR
-        BlockDef[BlockNumber][14] = FogG
-        BlockDef[BlockNumber][15] = FogB
-        BlockDef[BlockNumber][16] = FogDensity
-        BlockDef[BlockNumber][17] = Coords[0]
-        BlockDef[BlockNumber][18] = Coords[1]
-        BlockDef[BlockNumber][19] = Coords[2]
-        BlockDef[BlockNumber][20] = Coords[3]
-        BlockDef[BlockNumber][21] = Coords[4]
-        BlockDef[BlockNumber][22] = Coords[5]
+        BlockDef[BlockNumber][0] = 1
+        BlockDef[BlockNumber][1] = str(BlockName)
+        BlockDef[BlockNumber][2] = CollideType
+        BlockDef[BlockNumber][3] = TextureNum1
+        BlockDef[BlockNumber][4] = TextureNum2
+        BlockDef[BlockNumber][5] = TextureNum3
+        BlockDef[BlockNumber][6] = TextureNum4
+        BlockDef[BlockNumber][7] = TextureNum5
+        BlockDef[BlockNumber][8] = TextureNum6
+        BlockDef[BlockNumber][9] = int(TransmitsLight)
+        BlockDef[BlockNumber][10] = WalkSound
+        BlockDef[BlockNumber][11] = FullBright
+        BlockDef[BlockNumber][12] = Shape
+        BlockDef[BlockNumber][13] = int(BlockDraw)
+        BlockDef[BlockNumber][14] = FogR
+        BlockDef[BlockNumber][15] = FogG
+        BlockDef[BlockNumber][16] = FogB
+        BlockDef[BlockNumber][17] = FogDensity
+        BlockDef[BlockNumber][18] = Coords[0]
+        BlockDef[BlockNumber][19] = Coords[1]
+        BlockDef[BlockNumber][20] = Coords[2]
+        BlockDef[BlockNumber][21] = Coords[3]
+        BlockDef[BlockNumber][22] = Coords[4]
+        BlockDef[BlockNumber][23] = Coords[5]
 
 # ---------------------------- Download and Extract Texture ----------------------------
 
@@ -226,32 +293,32 @@ initfile.write('\t})\n')
 initfile.write('end)\n')
 
 for BlockNumber in range(0, 768):
-    BlockName = BlockDef[BlockNumber][0]
-    if(BlockName is not None):
-        CollideType = BlockDef[BlockNumber][1]
-        TextureNum1 = BlockDef[BlockNumber][2]
-        TextureNum2 = BlockDef[BlockNumber][3]
-        TextureNum3 = BlockDef[BlockNumber][4]
-        TextureNum4 = BlockDef[BlockNumber][5]
-        TextureNum5 = BlockDef[BlockNumber][6]
-        TextureNum6 = BlockDef[BlockNumber][7]
-        TransmitsLight = BlockDef[BlockNumber][8]
-        WalkSound = BlockDef[BlockNumber][9]
-        FullBright = BlockDef[BlockNumber][10]
-        Shape = BlockDef[BlockNumber][11]
-        BlockDraw = BlockDef[BlockNumber][12]
-        FogR = BlockDef[BlockNumber][13]
-        FogG = BlockDef[BlockNumber][14]
-        FogB = BlockDef[BlockNumber][15]
-        FogDensity = BlockDef[BlockNumber][16]
-        Coords1 = BlockDef[BlockNumber][17]
-        Coords2 = BlockDef[BlockNumber][18]
-        Coords3 = BlockDef[BlockNumber][19]
-        Coords4 = BlockDef[BlockNumber][20]
-        Coords5 = BlockDef[BlockNumber][21]
-        Coords6 = BlockDef[BlockNumber][22]
+    BlockUsed = BlockDef[BlockNumber][0]
+    if BlockUsed == 1:
+        BlockName = BlockDef[BlockNumber][1]
+        CollideType = BlockDef[BlockNumber][2]
+        TextureNum1 = BlockDef[BlockNumber][3]
+        TextureNum2 = BlockDef[BlockNumber][4]
+        TextureNum3 = BlockDef[BlockNumber][5]
+        TextureNum4 = BlockDef[BlockNumber][6]
+        TextureNum5 = BlockDef[BlockNumber][7]
+        TextureNum6 = BlockDef[BlockNumber][8]
+        TransmitsLight = BlockDef[BlockNumber][9]
+        WalkSound = BlockDef[BlockNumber][10]
+        FullBright = BlockDef[BlockNumber][11]
+        Shape = BlockDef[BlockNumber][12]
+        BlockDraw = BlockDef[BlockNumber][13]
+        FogR = BlockDef[BlockNumber][14]
+        FogG = BlockDef[BlockNumber][15]
+        FogB = BlockDef[BlockNumber][16]
+        FogDensity = BlockDef[BlockNumber][17]
+        Coords1 = BlockDef[BlockNumber][18]
+        Coords2 = BlockDef[BlockNumber][19]
+        Coords3 = BlockDef[BlockNumber][20]
+        Coords4 = BlockDef[BlockNumber][21]
+        Coords5 = BlockDef[BlockNumber][22]
+        Coords6 = BlockDef[BlockNumber][23]
         CoordsTable = [Coords1, Coords2, Coords3, Coords4, Coords5, Coords6]
-        print(CoordsTable)
         FogHex = rgb_to_hex((FogR, FogG, FogB))
         
         MinX = float(Coords1)
