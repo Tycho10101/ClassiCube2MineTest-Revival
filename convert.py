@@ -109,7 +109,7 @@ BlockDef[63] = [1, "Pillar", 2, 26, 58, 42, 42, 42, 42, 0, 4, 0, 16, 0, 0, 0, 0,
 BlockDef[64] = [1, "Crate", 2, 53, 53, 53, 53, 53, 53, 0, 1, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
 BlockDef[65] = [1, "Stone Brick", 2, 52, 52, 52, 52, 52, 52, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
 
-for BlockNumber in range(0, 768):
+for BlockNumber in range(1, 768):
     BlockDefHex = '{:04x}'.format(BlockNumber)
     BlockDefName = "Block" + BlockDefHex.upper()
     if BlockDefName in CC_BlockDefinitions:
@@ -172,7 +172,7 @@ for BlockNumber in range(0, 768):
 print('ClassiCube2Minetest: Texture: Download')
 CC_EnvMapAppearance = CC_Metadata['EnvMapAppearance']
 TextureURL = str(CC_EnvMapAppearance['TextureURL'])
-
+print(TextureURL)
 if not os.path.isdir('./texture/'):
    os.makedirs('./texture/')
 
@@ -278,7 +278,7 @@ if os.path.isfile('./texture/res/skybox.png'):
 
     initfile.write('\tplayer:set_sky({\n')
     initfile.write('\t\ttype = "skybox",\n')
-    initfile.write('\t\ttextures = {"skybox1.png", "skybox2.png^[transformR180", "skybox4.png", "skybox6.png^[transformR180", "skybox3.png^[transformR180", "skybox5.png^[transformR180"},\n')
+    initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformFXR90", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
     initfile.write('\t\tclouds = false\n')
     initfile.write('\t})\n')
     initfile.write('\tplayer:set_sun({visible = false, sunrise_visible = false})\n')
@@ -359,7 +359,7 @@ for BlockNumber in range(0, 768):
                     if BlockDraw == 2: # transparent but with no face culling of same neighbours (e.g. like leaves)
                         initfile.write('\tdrawtype = "glasslike",\n')
                     if BlockDraw == 3: # translucent, where texture's alpha is blended (e.g. like ice or water)
-                        initfile.write('\tdrawtype = "liquid",\n')
+                        initfile.write('\tdrawtype = "glasslike",\n')
                 else:
                     initfile.write('\tdrawtype = "nodebox",\n')
                     initfile.write('\tnode_box = {\n')
@@ -415,10 +415,7 @@ for BlockNumber in range(0, 768):
         initfile.write('\tuse_texture_alpha = true,\n')
         initfile.write('\tdrop = "",\n')
         
-        if FogR != 0:
-            if FogG != 0:
-                if FogB != 0:
-                    initfile.write('\tpost_effect_color = {a=' + str(FogDensity) + ', r=' + str(FogR) + ', g=' + str(FogG) + ', b=' + str(FogB) + '},\n')
+        initfile.write('\tpost_effect_color = {a=' + str(FogDensity) + ', r=' + str(FogR) + ', g=' + str(FogG) + ', b=' + str(FogB) + '},\n')
 
         
         if WalkSound == 1:
