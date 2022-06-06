@@ -355,11 +355,11 @@ for BlockNumber in range(0, 768):
                     if BlockDraw == 0: # fully opaque
                         initfile.write('\tdrawtype = "normal",\n')
                     if BlockDraw == 1: # transparent (e.g. like glass)
-                        initfile.write('\tdrawtype = "glasslike",\n')
+                        initfile.write('\tdrawtype = "normal",\n')
                     if BlockDraw == 2: # transparent but with no face culling of same neighbours (e.g. like leaves)
-                        initfile.write('\tdrawtype = "glasslike",\n')
+                        initfile.write('\tdrawtype = "normal",\n')
                     if BlockDraw == 3: # translucent, where texture's alpha is blended (e.g. like ice or water)
-                        initfile.write('\tdrawtype = "glasslike",\n')
+                        initfile.write('\tdrawtype = "normal",\n')
                 else:
                     initfile.write('\tdrawtype = "nodebox",\n')
                     initfile.write('\tnode_box = {\n')
@@ -412,7 +412,7 @@ for BlockNumber in range(0, 768):
         if FullBright == 1:
             initfile.write('\tlight_source = 14,\n')
         
-        initfile.write('\tuse_texture_alpha = true,\n')
+        initfile.write('\tuse_texture_alpha = false,\n')
         initfile.write('\tdrop = "",\n')
         
         initfile.write('\tpost_effect_color = {a=' + str(FogDensity) + ', r=' + str(FogR) + ', g=' + str(FogG) + ', b=' + str(FogB) + '},\n')
