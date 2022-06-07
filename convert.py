@@ -471,6 +471,7 @@ for BlockNumber in range(0, 768):
         initfile.write('})\n')
 
 initfile.close() #This close() is important
+shutil.rmtree('./texture/')
 
 # ---------------------------- Classicube Map to Minetest World ----------------------------
 
