@@ -1,0 +1,5 @@
+nbtlib==1.12.1
+requests
+numpy
+argparse
+pillow
