@@ -506,7 +506,7 @@ def CC2MT_ConvertEnv(WorldName):
     
         initfile.write('\tplayer:set_sky({\n')
         initfile.write('\t\ttype = "skybox",\n')
-        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
+        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformfx", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
         initfile.write('\t\tclouds = false\n')
         initfile.write('\t})\n')
         initfile.write('\tplayer:set_sun({visible = false, sunrise_visible = false})\n')
