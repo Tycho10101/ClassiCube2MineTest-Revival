@@ -733,7 +733,7 @@ def CC2MT_MT_Final(WorldName):
     
 #CC2MT_CCLoadMap('world1.cw')
 #CC2MT_ConvertBlocks('firstblocks') #blocks_modname
-#CC2MT_ConvertWorld('firstblocks', 0, 0, 0) #using blocks_modname blocks
+#CC2MT_ConvertWorld('firstblocks', 0, 0, 0, False) #using blocks_modname blocks
 #CC2MT_MT_MakePlayersFile(int(CC_WorldSpawn['X']), int(CC_WorldSpawn['Y']), int(CC_WorldSpawn['Z']), CC_RealWorldSizeX)
 
 #CC2MT_CCLoadMap('world2.cw')
