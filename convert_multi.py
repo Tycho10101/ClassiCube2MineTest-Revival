@@ -359,11 +359,7 @@ def CC2MT_ConvertBlocks(BlocksModName):
                             initfile.write('\t\tfixed = {' + str(MinX) + ", " + str(MinY) + ", " + str(MinZ) + ", " + str(MaxX) + ", " + str(MaxY) + ", " + str(MaxZ) + '},\n')
                             initfile.write('\t},\n')
                         if BlockDraw == 3: # translucent, where texture's alpha is blended (e.g. like ice or water)
-                            initfile.write('\tdrawtype = "nodebox",\n')
-                            initfile.write('\tnode_box = {\n')
-                            initfile.write('\t\ttype = "fixed",\n')
-                            initfile.write('\t\tfixed = {' + str(MinX) + ", " + str(MinY) + ", " + str(MinZ) + ", " + str(MaxX) + ", " + str(MaxY) + ", " + str(MaxZ) + '},\n')
-                            initfile.write('\t},\n')
+                            initfile.write('\tdrawtype = "liquid",\n')
                     else:
                         initfile.write('\tdrawtype = "nodebox",\n')
                         initfile.write('\tnode_box = {\n')
@@ -462,6 +458,7 @@ def CC2MT_ConvertBlocks(BlocksModName):
                 initfile.write('\tgroups = {cracky = 3, oddly_breakable_by_hand = 3},\n')
             initfile.write('})\n')
     initfile.close()
+    shutil.rmtree('./texture/')
 
 def CC2MT_ConvertEnv(WorldName):
     print('ClassiCube2Minetest: Minetest Mod: Convert Env')
@@ -509,7 +506,7 @@ def CC2MT_ConvertEnv(WorldName):
     
         initfile.write('\tplayer:set_sky({\n')
         initfile.write('\t\ttype = "skybox",\n')
-        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformFXR90", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
+        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
         initfile.write('\t\tclouds = false\n')
         initfile.write('\t})\n')
         initfile.write('\tplayer:set_sun({visible = false, sunrise_visible = false})\n')
@@ -524,7 +521,7 @@ def CC2MT_ConvertEnv(WorldName):
     initfile.write('end)\n')
     initfile.close() #This close() is important
 
-def CC2MT_ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ):
+def CC2MT_ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ, IsTest):
     global CC_RealWorldSizeX
     global CC_RealWorldSizeY
     global CC_RealWorldSizeZ
@@ -587,10 +584,14 @@ def CC2MT_ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ):
       while CC_Z_BlockPosition <= 15:  
     
           CC_X_RealBlockPosition = CC_X_BlockPosition*-1 + 15
-          CCMT_X_BlockPosition = CC_X_RealBlockPosition + MT_CurrentChunkX * 16  
-          CCMT_Y_BlockPosition = CC_Y_BlockPosition + MT_CurrentChunkY * 16  
-          CCMT_Z_BlockPosition = CC_Z_BlockPosition + MT_CurrentChunkZ * 16  
-          getclassicubeblock(CCMT_X_BlockPosition, CCMT_Z_BlockPosition, CCMT_Y_BlockPosition)  
+          CCMT_X_BlockPosition = CC_X_RealBlockPosition + MT_CurrentChunkX * 16
+          CCMT_Y_BlockPosition = CC_Y_BlockPosition + MT_CurrentChunkY * 16
+          CCMT_Z_BlockPosition = CC_Z_BlockPosition + MT_CurrentChunkZ * 16
+          global CC_BlockID
+          if IsTest == True:  
+            CC_BlockID = 1
+          else:
+            getclassicubeblock(CCMT_X_BlockPosition, CCMT_Z_BlockPosition, CCMT_Y_BlockPosition)  
           # print(str(CCMT_X_BlockPosition) + ' ' + str(CCMT_Y_BlockPosition) + ' ' + str(CCMT_Z_BlockPosition) + ' ' + str(CC_BlockID))  
           MT_BlocksList.append(CC_BlockID)  
           if 15 == CC_X_BlockPosition:  
@@ -666,6 +667,8 @@ def CC2MT_ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ):
       
     mapsqlfile.commit()
     mapsqlfile.close()
+
+
 
 def CC2MT_MT_MakePlayersFile(ccX, ccY, ccZ, ccWX):
     CC_WorldSpawn = CC_WorldFileData['Spawn']
