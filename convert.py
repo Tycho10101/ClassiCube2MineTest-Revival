@@ -367,11 +367,7 @@ for BlockNumber in range(0, 768):
                         initfile.write('\t\tfixed = {' + str(MinX) + ", " + str(MinY) + ", " + str(MinZ) + ", " + str(MaxX) + ", " + str(MaxY) + ", " + str(MaxZ) + '},\n')
                         initfile.write('\t},\n')
                     if BlockDraw == 3: # translucent, where texture's alpha is blended (e.g. like ice or water)
-                        initfile.write('\tdrawtype = "nodebox",\n')
-                        initfile.write('\tnode_box = {\n')
-                        initfile.write('\t\ttype = "fixed",\n')
-                        initfile.write('\t\tfixed = {' + str(MinX) + ", " + str(MinY) + ", " + str(MinZ) + ", " + str(MaxX) + ", " + str(MaxY) + ", " + str(MaxZ) + '},\n')
-                        initfile.write('\t},\n')
+                        initfile.write('\tdrawtype = "liquid",\n')
                 else:
                     initfile.write('\tdrawtype = "nodebox",\n')
                     initfile.write('\tnode_box = {\n')
