@@ -4,7 +4,6 @@ Converts Classicube Maps to Minetest Worlds
 
 ### Required 
 
-* Bash
 * Python 3.x
 
 ```bash
