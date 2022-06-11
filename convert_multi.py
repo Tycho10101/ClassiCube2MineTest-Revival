@@ -72,14 +72,12 @@ def CC2MT_CCLoadMap(CCMapFile):
     CC_WorldFile = nbtlib.load(CCMapFile)
     CC_WorldFileData = CC_WorldFile['ClassicWorld'] 
     CC_Metadata = CC_WorldFileData['Metadata'] 
-    CC_Metadata = CC_Metadata['CPE']
-    print('ClassiCube2Minetest: Get BlockDefinitions')
-    CC_BlockDefinitions = CC_Metadata['BlockDefinitions']
-    # BlockUsed, BlockName, CollideType, Texture1, Texture2, Texture3, Texture4, Texture5, Texture6, TransmitsLight, WalkSound, FullBright, Shape, BlockDraw, FogR, FogG, FogB, FogDensity, Coords1, Coords2, Coords3, Coords4, Coords5, Coords6
 
+def CC2MT_ConvertBlocks(BlocksModName):
+    global CC_Metadata
     BlockDef = [ [ None for y in range( 24 ) ]
                  for x in range( 768 ) ]
-    
+    # BlockUsed, BlockName, CollideType, Texture1, Texture2, Texture3, Texture4, Texture5, Texture6, TransmitsLight, WalkSound, FullBright, Shape, BlockDraw, FogR, FogG, FogB, FogDensity, Coords1, Coords2, Coords3, Coords4, Coords5, Coords6
     BlockDef[1] = [1, "Stone", 2, 1, 1, 1, 1, 1, 1, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
     BlockDef[2] = [1, "Grass Block", 2, 0, 2, 3, 3, 3, 3, 0, 3, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
     BlockDef[3] = [1, "Dirt", 2, 2, 2, 2, 2, 2, 2, 0, 3, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
@@ -146,75 +144,84 @@ def CC2MT_CCLoadMap(CCMapFile):
     BlockDef[64] = [1, "Crate", 2, 53, 53, 53, 53, 53, 53, 0, 1, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
     BlockDef[65] = [1, "Stone Brick", 2, 52, 52, 52, 52, 52, 52, 0, 4, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16]
     
-    for BlockNumber in range(1, 768):
-        BlockDefHex = '{:04x}'.format(BlockNumber)
-        BlockDefName = "Block" + BlockDefHex.upper()
-        if BlockDefName in CC_BlockDefinitions:
-            CC_Block = CC_BlockDefinitions[BlockDefName]
-            ID = CC_Block["ID2"]
-            BlockName = CC_Block["Name"]
-            CollideType = int(CC_Block["CollideType"])
-            TexturesFull = numpy.array(CC_Block['Textures'])
-            Textures256_1 = TexturesFull[6] % 2**8 
-            Textures256_2 = TexturesFull[7] % 2**8 
-            Textures256_3 = TexturesFull[8] % 2**8 
-            Textures256_4 = TexturesFull[9] % 2**8 
-            Textures256_5 = TexturesFull[10] % 2**8 
-            Textures256_6 = TexturesFull[11] % 2**8 
-            TextureNum1 = TexturesFull[0] % 2**8 + Textures256_1 * 256
-            TextureNum2 = TexturesFull[1] % 2**8 + Textures256_2 * 256
-            TextureNum3 = TexturesFull[2] % 2**8 + Textures256_3 * 256
-            TextureNum4 = TexturesFull[3] % 2**8 + Textures256_4 * 256
-            TextureNum5 = TexturesFull[4] % 2**8 + Textures256_5 * 256
-            TextureNum6 = TexturesFull[5] % 2**8 + Textures256_6 * 256
-            TransmitsLight = CC_Block["TransmitsLight"]
-            WalkSound = int(CC_Block["WalkSound"])
-            FullBright = int(CC_Block["FullBright"])
-            Shape = int(CC_Block["Shape"])
-            BlockDraw = CC_Block["BlockDraw"]
-            FogColor = numpy.array(CC_Block['Fog'])
-            FogDensity = int(FogColor[0] % 2**8)
-            FogR = int(FogColor[1] % 2**8)
-            FogG = int(FogColor[2] % 2**8)
-            FogB = int(FogColor[3] % 2**8)
-            Coords = numpy.array(CC_Block["Coords"])
-    
-            BlockDef[BlockNumber][0] = 1
-            BlockDef[BlockNumber][1] = str(BlockName)
-            BlockDef[BlockNumber][2] = CollideType
-            BlockDef[BlockNumber][3] = TextureNum1
-            BlockDef[BlockNumber][4] = TextureNum2
-            BlockDef[BlockNumber][5] = TextureNum3
-            BlockDef[BlockNumber][6] = TextureNum4
-            BlockDef[BlockNumber][7] = TextureNum5
-            BlockDef[BlockNumber][8] = TextureNum6
-            BlockDef[BlockNumber][9] = int(TransmitsLight)
-            BlockDef[BlockNumber][10] = WalkSound
-            BlockDef[BlockNumber][11] = FullBright
-            BlockDef[BlockNumber][12] = Shape
-            BlockDef[BlockNumber][13] = int(BlockDraw)
-            BlockDef[BlockNumber][14] = FogR
-            BlockDef[BlockNumber][15] = FogG
-            BlockDef[BlockNumber][16] = FogB
-            BlockDef[BlockNumber][17] = FogDensity
-            BlockDef[BlockNumber][18] = Coords[0]
-            BlockDef[BlockNumber][19] = Coords[1]
-            BlockDef[BlockNumber][20] = Coords[2]
-            BlockDef[BlockNumber][21] = Coords[3]
-            BlockDef[BlockNumber][22] = Coords[4]
-            BlockDef[BlockNumber][23] = Coords[5]
-
-def CC2MT_ConvertBlocks(BlocksModName):
-    print('ClassiCube2Minetest: Texture: Download')
-    CC_EnvMapAppearance = CC_Metadata['EnvMapAppearance']
-    TextureURL = str(CC_EnvMapAppearance['TextureURL'])
-    print(TextureURL)
     if not os.path.isdir('./texture/'):
-       os.makedirs('./texture/')
-    
+        os.makedirs('./texture/')
+
+    if 'CPE' in CC_Metadata:
+        CC_Metadata = CC_Metadata['CPE']
+        print('ClassiCube2Minetest: Get BlockDefinitions')
+        CC_BlockDefinitions = CC_Metadata['BlockDefinitions']
+
+        for BlockNumber in range(1, 768):
+            BlockDefHex = '{:04x}'.format(BlockNumber)
+            BlockDefName = "Block" + BlockDefHex.upper()
+            if BlockDefName in CC_BlockDefinitions:
+                CC_Block = CC_BlockDefinitions[BlockDefName]
+                ID = CC_Block["ID2"]
+                BlockName = CC_Block["Name"]
+                CollideType = int(CC_Block["CollideType"])
+                TexturesFull = numpy.array(CC_Block['Textures'])
+                Textures256_1 = TexturesFull[6] % 2**8 
+                Textures256_2 = TexturesFull[7] % 2**8 
+                Textures256_3 = TexturesFull[8] % 2**8 
+                Textures256_4 = TexturesFull[9] % 2**8 
+                Textures256_5 = TexturesFull[10] % 2**8 
+                Textures256_6 = TexturesFull[11] % 2**8 
+                TextureNum1 = TexturesFull[0] % 2**8 + Textures256_1 * 256
+                TextureNum2 = TexturesFull[1] % 2**8 + Textures256_2 * 256
+                TextureNum3 = TexturesFull[2] % 2**8 + Textures256_3 * 256
+                TextureNum4 = TexturesFull[3] % 2**8 + Textures256_4 * 256
+                TextureNum5 = TexturesFull[4] % 2**8 + Textures256_5 * 256
+                TextureNum6 = TexturesFull[5] % 2**8 + Textures256_6 * 256
+                TransmitsLight = CC_Block["TransmitsLight"]
+                WalkSound = int(CC_Block["WalkSound"])
+                FullBright = int(CC_Block["FullBright"])
+                Shape = int(CC_Block["Shape"])
+                BlockDraw = CC_Block["BlockDraw"]
+                FogColor = numpy.array(CC_Block['Fog'])
+                FogDensity = int(FogColor[0] % 2**8)
+                FogR = int(FogColor[1] % 2**8)
+                FogG = int(FogColor[2] % 2**8)
+                FogB = int(FogColor[3] % 2**8)
+                Coords = numpy.array(CC_Block["Coords"])
+        
+                BlockDef[BlockNumber][0] = 1
+                BlockDef[BlockNumber][1] = str(BlockName)
+                BlockDef[BlockNumber][2] = CollideType
+                BlockDef[BlockNumber][3] = TextureNum1
+                BlockDef[BlockNumber][4] = TextureNum2
+                BlockDef[BlockNumber][5] = TextureNum3
+                BlockDef[BlockNumber][6] = TextureNum4
+                BlockDef[BlockNumber][7] = TextureNum5
+                BlockDef[BlockNumber][8] = TextureNum6
+                BlockDef[BlockNumber][9] = int(TransmitsLight)
+                BlockDef[BlockNumber][10] = WalkSound
+                BlockDef[BlockNumber][11] = FullBright
+                BlockDef[BlockNumber][12] = Shape
+                BlockDef[BlockNumber][13] = int(BlockDraw)
+                BlockDef[BlockNumber][14] = FogR
+                BlockDef[BlockNumber][15] = FogG
+                BlockDef[BlockNumber][16] = FogB
+                BlockDef[BlockNumber][17] = FogDensity
+                BlockDef[BlockNumber][18] = Coords[0]
+                BlockDef[BlockNumber][19] = Coords[1]
+                BlockDef[BlockNumber][20] = Coords[2]
+                BlockDef[BlockNumber][21] = Coords[3]
+                BlockDef[BlockNumber][22] = Coords[4]
+                BlockDef[BlockNumber][23] = Coords[5]
+
+        CC_EnvMapAppearance = CC_Metadata['EnvMapAppearance']
+        TextureURL = str(CC_EnvMapAppearance['TextureURL'])
+        if TextureURL == '':
+            TextureURL = "https://www.classicube.net/static/default.zip"
+        print(TextureURL)
+    else:  
+        TextureURL = "https://www.classicube.net/static/default.zip"
+
+    print('ClassiCube2Minetest: Texture: Download')
     downloadtexturefile = requests.get(TextureURL, allow_redirects=True)
     open('./texture/texturefile', 'wb').write(downloadtexturefile.content)
-    
+
     texturefile = open("./texture/texturefile", "rb")
     texturefilefirstbytes = texturefile.read(4)
     
@@ -233,8 +240,6 @@ def CC2MT_ConvertBlocks(BlocksModName):
     shutil.copyfile('./texture/zip/terrain.png', './texture/res/terrain.png')
     if os.path.isfile('./texture/zip/skybox.png'):
        shutil.copyfile('./texture/zip/skybox.png', './texture/res/skybox.png')
-    
-    
     # ---------------------------- Crop Textures ----------------------------
     
     print('ClassiCube2Minetest: Texture: Seperate')
@@ -506,7 +511,7 @@ def CC2MT_ConvertEnv(WorldName):
     
         initfile.write('\tplayer:set_sky({\n')
         initfile.write('\t\ttype = "skybox",\n')
-        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformfx", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
+        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
         initfile.write('\t\tclouds = false\n')
         initfile.write('\t})\n')
         initfile.write('\tplayer:set_sun({visible = false, sunrise_visible = false})\n')
