@@ -53,7 +53,7 @@ def getBlockAsInteger(Xval, Yval, Zval):
 def getclassicubeblock(blockposX, blockposZ, blockposY):
   global CC_BlockID
   CC_BlockID = 0
-  if blockposX < CC_RealWorldSizeX:
+  if -1 < blockposX < CC_RealWorldSizeX:
     if blockposY < CC_RealWorldSizeY:
       if blockposZ < CC_RealWorldSizeZ:
         CC_BlockID = CC_Blocks_3D[blockposY][blockposZ][blockposX]
@@ -216,7 +216,7 @@ def ConvertBlocks(BlocksModName):
             TextureURL = "https://www.classicube.net/static/default.zip"
         print(TextureURL)
     else:  
-        TextureURL = "https://www.classicube.net/static/default.zip"
+        TextureURL = "https://123dmwm.com/texturepacks/SphaxPureBDcraft512x.zip"
 
     print('ClassiCube2Minetest: Texture: Download')
     downloadtexturefile = requests.get(TextureURL, allow_redirects=True)
@@ -344,7 +344,7 @@ def ConvertBlocks(BlocksModName):
             
             initfile.write('minetest.register_node("' + str(BlocksModName) + ':' + str(BlockNumber) + '", {\n')
             initfile.write('\tdescription =  "' + str(BlocksModName) + ' ' + str(BlockName) + '",\n')
-            initfile.write('\tinventory_image = minetest.inventorycube("' + BlocksModName + str(TextureNum1) + '.png", "' + BlocksModName + str(TextureNum2) + '.png", "' + BlocksModName + str(TextureNum3) + '.png"),\n')
+            initfile.write('\tinventory_image = minetest.inventorycube("' + BlocksModName + str(TextureNum1) + '.png", "' + BlocksModName + str(TextureNum4) + '.png", "' + BlocksModName + str(TextureNum5) + '.png"),\n')
             
             if BlockDraw != 4:
                 if Shape != 0:
