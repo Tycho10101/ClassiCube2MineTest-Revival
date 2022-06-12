@@ -216,7 +216,7 @@ def ConvertBlocks(BlocksModName):
             TextureURL = "https://www.classicube.net/static/default.zip"
         print(TextureURL)
     else:  
-        TextureURL = "https://123dmwm.com/texturepacks/SphaxPureBDcraft512x.zip"
+        TextureURL = "https://www.classicube.net/static/default.zip"
 
     print('ClassiCube2Minetest: Texture: Download')
     downloadtexturefile = requests.get(TextureURL, allow_redirects=True)
