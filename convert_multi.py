@@ -447,10 +447,10 @@ def CC2MT_ConvertBlocks(BlocksModName):
             if WalkSound == 9:
                 initfile.write('\tsounds = default.node_sound_snow_defaults(),\n')
             
-            if CollideType == 5 or CollideType == 6:
-                    initfile.write('\tdrowning = 1,\n')
-                    initfile.write('\tliquidtype = "source",\n')
-                    initfile.write('\tliquid_viscosity = 1,\n')
+            #if CollideType == 5 or CollideType == 6:
+            #        initfile.write('\tdrowning = 4,\n')
+            #        initfile.write('\tliquidtype = "source",\n')
+            #        initfile.write('\tliquid_viscosity = 1,\n')
             
             if Shape != 0:
                 if CollideType == 0 or CollideType == 2 or CollideType == 3 or CollideType == 4 or CollideType == 7:
