@@ -419,7 +419,7 @@ def ConvertBlocks(BlocksModName_input):
                     initfile.write('\ttiles = {' + GetTexture(TextureNum1, '^[transformr180') + ', ' + GetTexture(TextureNum2, '') + ', ' + GetTexture(TextureNum3, '') + ', ' + GetTexture(TextureNum4, '') + ', ' + GetTexture(TextureNum6, '') + ', ' + GetTexture(TextureNum5, '') + '},\n')
                 else:
                     tintedblock = '^[multiply:#' + str(FogHex)
-                    initfile.write('\ttiles = {' + GetTexture(TextureNum1, '^[transformr180' + tintedblock) + ', ' + GetTexture(TextureNum2, tintedblock) + ', ' + GetTexture(TextureNum3, tintedblock) + ', ' + GetTexture(TextureNum4, '') + ', ' + GetTexture(TextureNum6, tintedblock) + ', ' + GetTexture(TextureNum5, tintedblock) + '},\n')
+                    initfile.write('\ttiles = {' + GetTexture(TextureNum1, '^[transformr180' + tintedblock) + ', ' + GetTexture(TextureNum2, tintedblock) + ', ' + GetTexture(TextureNum3, tintedblock) + ', ' + GetTexture(TextureNum4, tintedblock) + ', ' + GetTexture(TextureNum6, tintedblock) + ', ' + GetTexture(TextureNum5, tintedblock) + '},\n')
             else:
                 initfile.write('\ttiles = {' + GetTexture(TextureNum3, '') + '},\n')
             
@@ -502,6 +502,7 @@ def ConvertBlocks(BlocksModName_input):
                 initfile.write('\tgroups = {cracky = 3, oddly_breakable_by_hand = 3},\n')
             initfile.write('})\n')
     initfile.close()
+    shutil.rmtree('./texture/')
 
 def ConvertEnv(WorldName):
     print('ClassiCube2Minetest: Minetest Mod: Convert Env')
@@ -523,7 +524,7 @@ def ConvertEnv(WorldName):
     if not os.path.isdir('./output/worldmods/' + WorldName):
             os.makedirs('./output/worldmods/' + WorldName)
 
-    if not os.path.isdir('./output/worldmods/' + WorldName + '/textures/'):
+    if not os.path.isdir('./output/worldmods/' + WorldName):
             os.makedirs('./output/worldmods/' + WorldName + '/textures/')
 
     initfile = open("output/worldmods/" + WorldName + "/init.lua", "w")
@@ -563,7 +564,6 @@ def ConvertEnv(WorldName):
     initfile.write('\t})\n')
     initfile.write('end)\n')
     initfile.close() #This close() is important
-    shutil.rmtree('./texture/')
 
 def ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ, IsTest):
     global CC_RealWorldSizeX
