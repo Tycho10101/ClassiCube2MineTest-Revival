@@ -563,6 +563,7 @@ def ConvertEnv(WorldName):
     initfile.write('\t})\n')
     initfile.write('end)\n')
     initfile.close() #This close() is important
+    shutil.rmtree('./texture/')
 
 def ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ, IsTest):
     global CC_RealWorldSizeX
