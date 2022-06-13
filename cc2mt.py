@@ -70,7 +70,7 @@ def GetTexture(TextureNumber, ExtraTransform):
     if isAnimated == False:
         return '"' + BlocksModName + str(TextureNumber) + '.png' + ExtraTransform + '"'
     if isAnimated == True:
-        return '{name = "' + str(TextureFileName) + '.png' + ExtraTransform + '",animation = {type = "vertical_frames",aspect_w = ' + str(TextureSize) + ',aspect_h = ' + str(TextureSize) + ',length = ' + str(Speed+3) + "}}"
+        return '{name = "' + str(TextureFileName) + '.png' + ExtraTransform + '",animation = {type = "vertical_frames",aspect_w = ' + str(TextureSize) + ',aspect_h = ' + str(TextureSize) + ',length = ' + str((Speed*0.2)+1) + "}}"
 
 def CCLoadMap(CCMapFile):
     global CC_Metadata
@@ -300,7 +300,7 @@ def ConvertBlocks(BlocksModName_input):
     with open("./texture/zip/animations.txt") as animationsfile :
         for line in animationsfile:
             AnimParams = line. rstrip('\n').split(' ')
-            if AnimParams[0] != '#' and len(AnimParams) == 7:
+            if '#' not in AnimParams[0] and len(AnimParams) == 7:
                 AnimTileX = int(AnimParams[0])
                 AnimTileY = int(AnimParams[1])
                 AnimFrameX = int(AnimParams[2])
@@ -421,7 +421,7 @@ def ConvertBlocks(BlocksModName_input):
                     tintedblock = '^[multiply:#' + str(FogHex)
                     initfile.write('\ttiles = {' + GetTexture(TextureNum1, '^[transformr180' + tintedblock) + ', ' + GetTexture(TextureNum2, tintedblock) + ', ' + GetTexture(TextureNum3, tintedblock) + ', ' + GetTexture(TextureNum4, '') + ', ' + GetTexture(TextureNum6, tintedblock) + ', ' + GetTexture(TextureNum5, tintedblock) + '},\n')
             else:
-                initfile.write('\ttiles = {' + GetTexture(TextureNum2, '^[transformr180') + '},\n')
+                initfile.write('\ttiles = {' + GetTexture(TextureNum3, '') + '},\n')
             
             initfile.write('\tparamtype = "light",\n')
             
