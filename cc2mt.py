@@ -225,7 +225,7 @@ def ConvertBlocks(BlocksModName_input):
             TextureURL = "https://www.classicube.net/static/default.zip"
         print(TextureURL)
     else:  
-        TextureURL = "https://123dmwm.com/texturepacks/SphaxPureBDcraft512x.zip"
+        TextureURL = "https://123dmwm.com/texturepacks/R3DCraftSmoothRealism512x.zip"
 
     print('ClassiCube2Minetest: Texture: Download')
     downloadtexturefile = requests.get(TextureURL, allow_redirects=True)
@@ -295,27 +295,27 @@ def ConvertBlocks(BlocksModName_input):
     for TextureNumber in range(0, 512):
         TextureAnim[TextureNumber] = [False, BlocksModName + str(TextureNumber), None, None]
 
-    TextureImageAnim = Image.open(r"./texture/zip/animations.png")
-
-    with open("./texture/zip/animations.txt") as animationsfile :
-        for line in animationsfile:
-            AnimParams = line. rstrip('\n').split(' ')
-            if '#' not in AnimParams[0] and len(AnimParams) == 7:
-                AnimTileX = int(AnimParams[0])
-                AnimTileY = int(AnimParams[1])
-                AnimFrameX = int(AnimParams[2])
-                AnimFrameY = int(AnimParams[3])
-                AnimFrameSize = int(AnimParams[4])
-                AnimFramesCount = int(AnimParams[5])
-                AnimTickDelay = int(AnimParams[6])
-                TextureXYOut = AnimTileX + AnimTileY*16
-                TextureAnim[TextureXYOut] = [True, BlocksModName + str(TextureXYOut) + '_anim', AnimFrameSize,AnimTickDelay]
-    
-                AnimFrames = Image.new("RGBA", (AnimFrameSize, AnimFrameSize*AnimFramesCount), (255, 255, 255, 0))
-                for AnimFrameCount in range(0, AnimFramesCount):
-                    TextureImageFrame = TextureImageAnim.crop((AnimFrameX + AnimFrameCount*AnimFrameSize, AnimFrameY,       AnimFrameX+ AnimFrameSize + AnimFrameCount*AnimFrameSize, AnimFrameY + AnimFrameSize))
-                    AnimFrames.paste(TextureImageFrame, (0, AnimFrameCount*AnimFrameSize))
-                AnimFrames.save('./output/worldmods/' + BlocksModName + '/textures/' + BlocksModName + str(TextureXYOut) + '_anim.png', "PNG")
+    if os.path.isfile('./texture/zip/animations.png'):
+        TextureImageAnim = Image.open(r"./texture/zip/animations.png")
+        with open("./texture/zip/animations.txt") as animationsfile :
+            for line in animationsfile:
+                AnimParams = line. rstrip('\n').split(' ')
+                if '#' not in AnimParams[0] and len(AnimParams) == 7:
+                    AnimTileX = int(AnimParams[0])
+                    AnimTileY = int(AnimParams[1])
+                    AnimFrameX = int(AnimParams[2])
+                    AnimFrameY = int(AnimParams[3])
+                    AnimFrameSize = int(AnimParams[4])
+                    AnimFramesCount = int(AnimParams[5])
+                    AnimTickDelay = int(AnimParams[6])
+                    TextureXYOut = AnimTileX + AnimTileY*16
+                    TextureAnim[TextureXYOut] = [True, BlocksModName + str(TextureXYOut) + '_anim', AnimFrameSize,AnimTickDelay]
+        
+                    AnimFrames = Image.new("RGBA", (AnimFrameSize, AnimFrameSize*AnimFramesCount), (255, 255, 255, 0))
+                    for AnimFrameCount in range(0, AnimFramesCount):
+                        TextureImageFrame = TextureImageAnim.crop((AnimFrameX + AnimFrameCount*AnimFrameSize, AnimFrameY,       AnimFrameX+ AnimFrameSize + AnimFrameCount*AnimFrameSize, AnimFrameY + AnimFrameSize))
+                        AnimFrames.paste(TextureImageFrame, (0, AnimFrameCount*AnimFrameSize))
+                    AnimFrames.save('./output/worldmods/' + BlocksModName + '/textures/' + BlocksModName + str(TextureXYOut) + '_anim.png', "PNG")
 
     # ---------------------------- Convert Blocks ----------------------------
     print('ClassiCube2Minetest: Minetest Mod: Convert Blocks')
