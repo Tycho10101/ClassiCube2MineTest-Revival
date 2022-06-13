@@ -418,7 +418,8 @@ def ConvertBlocks(BlocksModName_input):
                 if (BlockName.find('#') == -1):
                     initfile.write('\ttiles = {' + GetTexture(TextureNum1, '^[transformr180') + ', ' + GetTexture(TextureNum2, '') + ', ' + GetTexture(TextureNum3, '') + ', ' + GetTexture(TextureNum4, '') + ', ' + GetTexture(TextureNum6, '') + ', ' + GetTexture(TextureNum5, '') + '},\n')
                 else:
-                    initfile.write('\ttiles = { "' + BlocksModName + str(TextureNum1) + '.png^[multiply:#' + str(FogHex) + '^[transformr180", "' + BlocksModName + str(TextureNum2) + '.png^[multiply:#' + str(FogHex) + '", "' + BlocksModName + str(TextureNum3) + '.png^[multiply:#' + str(FogHex) + '", "' + BlocksModName + str(TextureNum4) + '.png^[multiply:#' + str(FogHex) + '", "' + BlocksModName + str(TextureNum6) + '.png^[multiply:#' + str(FogHex) + '", "' + BlocksModName + str(TextureNum5) + '.png^[multiply:#' + str(FogHex) + 'D0" },\n')
+                    tintedblock = '^[multiply:#' + str(FogHex)
+                    initfile.write('\ttiles = {' + GetTexture(TextureNum1, '^[transformr180' + tintedblock) + ', ' + GetTexture(TextureNum2, tintedblock) + ', ' + GetTexture(TextureNum3, tintedblock) + ', ' + GetTexture(TextureNum4, '') + ', ' + GetTexture(TextureNum6, tintedblock) + ', ' + GetTexture(TextureNum5, tintedblock) + '},\n')
             else:
                 initfile.write('\ttiles = {' + GetTexture(TextureNum2, '^[transformr180') + '},\n')
             
