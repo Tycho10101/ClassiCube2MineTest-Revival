@@ -502,7 +502,6 @@ def ConvertBlocks(BlocksModName_input):
                 initfile.write('\tgroups = {cracky = 3, oddly_breakable_by_hand = 3},\n')
             initfile.write('})\n')
     initfile.close()
-    shutil.rmtree('./texture/')
 
 def ConvertEnv(WorldName):
     print('ClassiCube2Minetest: Minetest Mod: Convert Env')
@@ -524,7 +523,7 @@ def ConvertEnv(WorldName):
     if not os.path.isdir('./output/worldmods/' + WorldName):
             os.makedirs('./output/worldmods/' + WorldName)
 
-    if not os.path.isdir('./output/worldmods/' + WorldName):
+    if not os.path.isdir('./output/worldmods/' + WorldName + '/textures/'):
             os.makedirs('./output/worldmods/' + WorldName + '/textures/')
 
     initfile = open("output/worldmods/" + WorldName + "/init.lua", "w")
