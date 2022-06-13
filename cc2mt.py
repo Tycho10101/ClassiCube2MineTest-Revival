@@ -62,8 +62,15 @@ def round_down(n, decimals=0):
     multiplier = 10 ** decimals
     return math.floor(n * multiplier) / multiplier
 
-
-
+def GetTexture(TextureNumber, ExtraTransform):
+    isAnimated = TextureAnim[TextureNumber][0]
+    TextureFileName = TextureAnim[TextureNumber][1]
+    TextureSize = TextureAnim[TextureNumber][2]
+    Speed = TextureAnim[TextureNumber][3]
+    if isAnimated == False:
+        return '"' + BlocksModName + str(TextureNumber) + '.png' + ExtraTransform + '"'
+    if isAnimated == True:
+        return '{name = "' + str(TextureFileName) + '.png' + ExtraTransform + '",animation = {type = "vertical_frames",aspect_w = ' + str(TextureSize) + ',aspect_h = ' + str(TextureSize) + ',length = ' + str(Speed+3) + "}}"
 
 def CCLoadMap(CCMapFile):
     global CC_Metadata
@@ -73,7 +80,9 @@ def CCLoadMap(CCMapFile):
     CC_WorldFileData = CC_WorldFile['ClassicWorld'] 
     CC_Metadata = CC_WorldFileData['Metadata'] 
 
-def ConvertBlocks(BlocksModName):
+def ConvertBlocks(BlocksModName_input):
+    global BlocksModName
+    BlocksModName = BlocksModName_input
     global CC_Metadata
     BlockDef = [ [ None for y in range( 24 ) ]
                  for x in range( 768 ) ]
@@ -216,7 +225,7 @@ def ConvertBlocks(BlocksModName):
             TextureURL = "https://www.classicube.net/static/default.zip"
         print(TextureURL)
     else:  
-        TextureURL = "https://www.classicube.net/static/default.zip"
+        TextureURL = "https://123dmwm.com/texturepacks/SphaxPureBDcraft512x.zip"
 
     print('ClassiCube2Minetest: Texture: Download')
     downloadtexturefile = requests.get(TextureURL, allow_redirects=True)
@@ -240,8 +249,8 @@ def ConvertBlocks(BlocksModName):
     shutil.copyfile('./texture/zip/terrain.png', './texture/res/terrain.png')
     if os.path.isfile('./texture/zip/skybox.png'):
        shutil.copyfile('./texture/zip/skybox.png', './texture/res/skybox.png')
+
     # ---------------------------- Crop Textures ----------------------------
-    
     print('ClassiCube2Minetest: Texture: Seperate')
     
     BlockTextureImage = Image.open(r"./texture/res/terrain.png")
@@ -279,7 +288,36 @@ def ConvertBlocks(BlocksModName):
     dependsfile = open("output/worldmods/" + str(BlocksModName) + "/depends.txt", "w")
     dependsfile.write('default')
     dependsfile.close()
+
+    # Animated, TextureName, Size, Speed
+    global TextureAnim
+    TextureAnim = [ [ None for y in range( 4 ) ] for x in range( 512 ) ]
+    for TextureNumber in range(0, 512):
+        TextureAnim[TextureNumber] = [False, BlocksModName + str(TextureNumber), None, None]
+
+    TextureImageAnim = Image.open(r"./texture/zip/animations.png")
+
+    with open("./texture/zip/animations.txt") as animationsfile :
+        for line in animationsfile:
+            AnimParams = line. rstrip('\n').split(' ')
+            if AnimParams[0] != '#' and len(AnimParams) == 7:
+                AnimTileX = int(AnimParams[0])
+                AnimTileY = int(AnimParams[1])
+                AnimFrameX = int(AnimParams[2])
+                AnimFrameY = int(AnimParams[3])
+                AnimFrameSize = int(AnimParams[4])
+                AnimFramesCount = int(AnimParams[5])
+                AnimTickDelay = int(AnimParams[6])
+                TextureXYOut = AnimTileX + AnimTileY*16
+                TextureAnim[TextureXYOut] = [True, BlocksModName + str(TextureXYOut) + '_anim', AnimFrameSize,AnimTickDelay]
     
+                AnimFrames = Image.new("RGBA", (AnimFrameSize, AnimFrameSize*AnimFramesCount), (255, 255, 255, 0))
+                for AnimFrameCount in range(0, AnimFramesCount):
+                    TextureImageFrame = TextureImageAnim.crop((AnimFrameX + AnimFrameCount*AnimFrameSize, AnimFrameY,       AnimFrameX+ AnimFrameSize + AnimFrameCount*AnimFrameSize, AnimFrameY + AnimFrameSize))
+                    AnimFrames.paste(TextureImageFrame, (0, AnimFrameCount*AnimFrameSize))
+                AnimFrames.save('./output/worldmods/' + BlocksModName + '/textures/' + BlocksModName + str(TextureXYOut) + '_anim.png', "PNG")
+
+    # ---------------------------- Convert Blocks ----------------------------
     print('ClassiCube2Minetest: Minetest Mod: Convert Blocks')
 
     if not os.path.isdir('./output/worldmods/'):
@@ -287,7 +325,7 @@ def ConvertBlocks(BlocksModName):
  
     if not os.path.isdir('./output/worldmods/' + BlocksModName):
             os.makedirs('./output/worldmods/' + BlocksModName)
-            
+
     initfile = open("output/worldmods/" + BlocksModName + "/init.lua", "w")
     for BlockNumber in range(0, 768):
         BlockUsed = BlockDef[BlockNumber][0]
@@ -378,11 +416,11 @@ def ConvertBlocks(BlocksModName):
             
             if Shape != 0:
                 if (BlockName.find('#') == -1):
-                    initfile.write('\ttiles = { "' + BlocksModName + str(TextureNum1) + '.png^[transformr180", "' + BlocksModName + str(TextureNum2) + '.png", "' + BlocksModName + str(TextureNum3) + '.png", "' + BlocksModName + str(TextureNum4) + '.png", "' + BlocksModName + str(TextureNum6) + '.png", "' + BlocksModName + str(TextureNum5) + '.png" },\n')
+                    initfile.write('\ttiles = {' + GetTexture(TextureNum1, '^[transformr180') + ', ' + GetTexture(TextureNum2, '') + ', ' + GetTexture(TextureNum3, '') + ', ' + GetTexture(TextureNum4, '') + ', ' + GetTexture(TextureNum6, '') + ', ' + GetTexture(TextureNum5, '') + '},\n')
                 else:
                     initfile.write('\ttiles = { "' + BlocksModName + str(TextureNum1) + '.png^[multiply:#' + str(FogHex) + '^[transformr180", "' + BlocksModName + str(TextureNum2) + '.png^[multiply:#' + str(FogHex) + '", "' + BlocksModName + str(TextureNum3) + '.png^[multiply:#' + str(FogHex) + '", "' + BlocksModName + str(TextureNum4) + '.png^[multiply:#' + str(FogHex) + '", "' + BlocksModName + str(TextureNum6) + '.png^[multiply:#' + str(FogHex) + '", "' + BlocksModName + str(TextureNum5) + '.png^[multiply:#' + str(FogHex) + 'D0" },\n')
             else:
-                initfile.write('\ttiles = { "' + BlocksModName + str(TextureNum1) + '.png" },\n')
+                initfile.write('\ttiles = {' + GetTexture(TextureNum2, '^[transformr180') + '},\n')
             
             initfile.write('\tparamtype = "light",\n')
             
