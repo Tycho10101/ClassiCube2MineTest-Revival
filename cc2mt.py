@@ -388,6 +388,7 @@ def ConvertBlocks(BlocksModName_input):
             initfile.write('\tinventory_image = minetest.inventorycube("' + BlocksModName + str(TextureNum1) + '.png", "' + BlocksModName + str(TextureNum4) + '.png", "' + BlocksModName + str(TextureNum5) + '.png"),\n')
 
             CanBePointed = "false"
+            CanBeDug = "false"
             if BlockDraw != 4:
                 if Shape != 0:
                     if Coords1 == Coords2 == Coords3 == 0 and Coords4 == Coords5 == Coords6 == 16:
@@ -416,6 +417,7 @@ def ConvertBlocks(BlocksModName_input):
                 else:
                     initfile.write('\tdrawtype = "plantlike",\n')
                     CanBePointed = "true"
+                    CanBeDug = "true"
             else:
                 initfile.write('\tdrawtype = "airlike",\n')
             
@@ -430,32 +432,33 @@ def ConvertBlocks(BlocksModName_input):
             
             initfile.write('\tparamtype = "light",\n')
 
+
             if CollideType == 2 or CollideType == 3 or CollideType == 4:
                 initfile.write('\twalkable = true,\n')
                 CanBePointed = "true"
-                initfile.write('\tdiggable = true,\n')
+                CanBeDug = "true"
                 initfile.write('\tbuildable_to = false,\n')
             
             if CollideType == 1:
                 initfile.write('\twalkable = false,\n')
                 CanBePointed = "true"
-                initfile.write('\tdiggable = true,\n')
+                CanBeDug = "true"
                 initfile.write('\tbuildable_to = true,\n')
                 initfile.write('\tclimbable = true,\n')
             
             if CollideType == 0 or CollideType == 1 or CollideType == 5 or CollideType == 6:
                 initfile.write('\twalkable = false,\n')
-                initfile.write('\tdiggable = false,\n')
                 initfile.write('\tbuildable_to = true,\n')
             
             if CollideType == 7:
                 initfile.write('\twalkable = false,\n')
                 CanBePointed = "true"
-                initfile.write('\tdiggable = true,\n')
+                CanBeDug = "true"
                 initfile.write('\tbuildable_to = false,\n')
                 initfile.write('\tclimbable = true,\n')
             
             initfile.write('\tpointable = ' + CanBePointed + ',\n')
+            initfile.write('\tdiggable = ' + CanBeDug + ',\n')
             initfile.write('\tis_ground_content = false,\n')
             
             if FullBright == 1:
