@@ -438,12 +438,11 @@ def ConvertBlocks(BlocksModName_input):
                 CanBePointed = "true"
                 CanBeDug = "true"
                 initfile.write('\tbuildable_to = false,\n')
-            
+
             if CollideType == 1:
                 initfile.write('\twalkable = false,\n')
                 CanBePointed = "true"
                 CanBeDug = "true"
-                initfile.write('\tbuildable_to = true,\n')
                 initfile.write('\tclimbable = true,\n')
             
             if CollideType == 0 or CollideType == 1 or CollideType == 5 or CollideType == 6:
@@ -510,6 +509,10 @@ def ConvertBlocks(BlocksModName_input):
                     initfile.write('\tgroups = {water = 3, liquid = 3, puts_out_fire = 1},\n')
                 if CollideType == 6:
                     initfile.write('\tgroups = {liquid = 2},\n')
+                if CollideType == 3:
+                    initfile.write('\tgroups = {cracky = 3, oddly_breakable_by_hand = 3, slippery = 3},\n')
+                if CollideType == 4:
+                    initfile.write('\tgroups = {cracky = 3, oddly_breakable_by_hand = 3, slippery = 5},\n')
             else:
                 initfile.write('\tgroups = {cracky = 3, oddly_breakable_by_hand = 3},\n')
             initfile.write('})\n')
