@@ -456,7 +456,11 @@ def ConvertBlocks(BlocksModName_input):
                 CanBeDug = "true"
                 initfile.write('\tbuildable_to = false,\n')
                 initfile.write('\tclimbable = true,\n')
-            
+
+            if CollideType == 0:
+                CanBePointed = "true"
+                CanBeDug = "true"
+
             initfile.write('\tpointable = ' + CanBePointed + ',\n')
             initfile.write('\tdiggable = ' + CanBeDug + ',\n')
             initfile.write('\tis_ground_content = false,\n')
