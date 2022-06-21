@@ -467,7 +467,7 @@ def ConvertBlocks(BlocksModName_input):
             initfile.write('\tuse_texture_alpha = "blend",\n')
             initfile.write('\tdrop = "",\n')
             
-            initfile.write('\tpost_effect_color = {a=' + str(FogDensity) + ', r=' + str(FogR) + ', g=' + str(FogG) + ', b=' + str(FogB) + '},\n')
+            initfile.write('\tpost_effect_color = {a=' + str(FogDensity * 0.8) + ', r=' + str(FogR) + ', g=' + str(FogG) + ', b=' + str(FogB) + '},\n')
     
             
             if WalkSound == 1:
@@ -565,7 +565,8 @@ def ConvertEnv(WorldName):
         initfile.write('\tplayer:set_moon({visible = false})\n')
         initfile.write('\tplayer:set_stars({visible = false})\n')
     else:
-        initfile.write('\tplayer:set_sky({r=' + str(SkyColor_R) + ', g=' + str(SkyColor_G) + ', b=' + str(SkyColor_B) + '}, "plain", {})\n')
+        if SkyColor_R!=153 and SkyColor_G!=204 and SkyColor_B!=255:
+            initfile.write('\tplayer:set_sky({r=' + str(SkyColor_R) + ', g=' + str(SkyColor_G) + ', b=' + str(SkyColor_B) + '}, "plain", {})\n')
     
     initfile.write('\tplayer:set_clouds({\n')
     initfile.write('\t\tcolor = {r=' + str(CloudColor_R) + ', g=' + str(CloudColor_G) + ', b=' + str(CloudColor_B) + '}\n')
