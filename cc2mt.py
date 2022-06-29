@@ -83,7 +83,7 @@ def CCLoadMap(CCMapFile):
     CC_WorldFileData = CC_WorldFile['ClassicWorld'] 
     CC_Metadata = CC_WorldFileData['Metadata'] 
 
-def ConvertBlocks(BlocksModName_input):
+def ConvertBlocks(BlocksModName_input, fileworldname):
     global BlocksModName
     BlocksModName = BlocksModName_input
     global CC_Metadata
@@ -265,14 +265,14 @@ def ConvertBlocks(BlocksModName_input):
     MaxBlockY = BlockTextureY / BlockSize
     BlockNumber = 0
     
-    if not os.path.isdir('./output/'):
-            os.makedirs('./output/')
+    if not os.path.isdir('./' + fileworldname + '/'):
+            os.makedirs('./' + fileworldname + '/')
     
-    if not os.path.isdir('./output/worldmods/' + BlocksModName):
-            os.makedirs('./output/worldmods/' + BlocksModName)
+    if not os.path.isdir('./' + fileworldname + '/worldmods/' + BlocksModName):
+            os.makedirs('./' + fileworldname + '/worldmods/' + BlocksModName)
     
-    if not os.path.isdir('./output/worldmods/' + BlocksModName + '/textures/'):
-            os.makedirs('./output/worldmods/' + BlocksModName + '/textures/')
+    if not os.path.isdir('./' + fileworldname + '/worldmods/' + BlocksModName + '/textures/'):
+            os.makedirs('./' + fileworldname + '/worldmods/' + BlocksModName + '/textures/')
     
     while CurrentBlockY <= MaxBlockY:
         #print(str(BlockNumber) + " " + str(CurrentBlockX) + " " + str(CurrentBlockY))
@@ -281,14 +281,14 @@ def ConvertBlocks(BlocksModName_input):
         BlockCropX = BlockCropRealX*BlockSize
         BlockCropY = BlockCropRealY*BlockSize
         BlockImage = BlockTextureImage.crop((BlockCropX, BlockCropY, BlockCropX+BlockSize, BlockCropY+BlockSize))
-        BlockImage.save('./output/worldmods/' + BlocksModName + '/textures/' + BlocksModName + str(BlockNumber) + '.png')
+        BlockImage.save('./' + fileworldname + '/worldmods/' + BlocksModName + '/textures/' + BlocksModName + str(BlockNumber) + '.png')
         BlockNumber = BlockNumber + 1
         CurrentBlockX = CurrentBlockX + 1
         if CurrentBlockX > 16:
             CurrentBlockY = CurrentBlockY + 1
             CurrentBlockX = 1
 
-    dependsfile = open("output/worldmods/" + str(BlocksModName) + "/depends.txt", "w")
+    dependsfile = open("./" + fileworldname + "/worldmods/" + str(BlocksModName) + "/depends.txt", "w")
     dependsfile.write('default')
     dependsfile.close()
 
@@ -318,18 +318,18 @@ def ConvertBlocks(BlocksModName_input):
                     for AnimFrameCount in range(0, AnimFramesCount):
                         TextureImageFrame = TextureImageAnim.crop((AnimFrameX + AnimFrameCount*AnimFrameSize, AnimFrameY,       AnimFrameX+ AnimFrameSize + AnimFrameCount*AnimFrameSize, AnimFrameY + AnimFrameSize))
                         AnimFrames.paste(TextureImageFrame, (0, AnimFrameCount*AnimFrameSize))
-                    AnimFrames.save('./output/worldmods/' + BlocksModName + '/textures/' + BlocksModName + str(TextureXYOut) + '_anim.png', "PNG")
+                    AnimFrames.save('./' + fileworldname + '/worldmods/' + BlocksModName + '/textures/' + BlocksModName + str(TextureXYOut) + '_anim.png', "PNG")
 
     # ---------------------------- Convert Blocks ----------------------------
     print('ClassiCube2Minetest: Minetest Mod: Convert Blocks')
 
-    if not os.path.isdir('./output/worldmods/'):
-            os.makedirs('./output/worldmods/')
+    if not os.path.isdir('./' + fileworldname + '/worldmods/'):
+            os.makedirs('./' + fileworldname + '/worldmods/')
  
-    if not os.path.isdir('./output/worldmods/' + BlocksModName):
-            os.makedirs('./output/worldmods/' + BlocksModName)
+    if not os.path.isdir('./' + fileworldname + '/worldmods/' + BlocksModName):
+            os.makedirs('./' + fileworldname + '/worldmods/' + BlocksModName)
 
-    initfile = open("output/worldmods/" + BlocksModName + "/init.lua", "w")
+    initfile = open("./" + fileworldname + "/worldmods/" + BlocksModName + "/init.lua", "w")
     for BlockNumber in range(0, 768):
         BlockUsed = BlockDef[BlockNumber][0]
         if BlockUsed == 1:
@@ -517,9 +517,8 @@ def ConvertBlocks(BlocksModName_input):
                 initfile.write('\tgroups = {cracky = 3, oddly_breakable_by_hand = 3},\n')
             initfile.write('})\n')
     initfile.close()
-    shutil.rmtree('./texture/')
 
-def ConvertEnv(WorldName):
+def ConvertEnv(WorldName, fileworldname):
     print('ClassiCube2Minetest: Minetest Mod: Convert Env')
 
     CC_EnvColors = CC_Metadata['EnvColors']
@@ -533,16 +532,16 @@ def ConvertEnv(WorldName):
     CloudColor_G = int(CC_CloudColors['G'])
     CloudColor_B = int(CC_CloudColors['B'])
 
-    if not os.path.isdir('./output/worldmods/'):
-            os.makedirs('./output/worldmods/')
+    if not os.path.isdir('./' + fileworldname + '/worldmods/'):
+            os.makedirs('./' + fileworldname + '/worldmods/')
  
-    if not os.path.isdir('./output/worldmods/' + WorldName):
-            os.makedirs('./output/worldmods/' + WorldName)
+    if not os.path.isdir('./' + fileworldname + '/worldmods/' + WorldName):
+            os.makedirs('./' + fileworldname + '/worldmods/' + WorldName)
 
-    if not os.path.isdir('./output/worldmods/' + WorldName):
-            os.makedirs('./output/worldmods/' + WorldName + '/textures/')
+    if not os.path.isdir('./' + fileworldname + '/worldmods/' + WorldName + '/textures/'):
+            os.makedirs('./' + fileworldname + '/worldmods/' + WorldName + '/textures/')
 
-    initfile = open("output/worldmods/" + WorldName + "/init.lua", "w")
+    initfile = open("./" + fileworldname + "/worldmods/" + WorldName + "/init.lua", "w")
     initfile.write('minetest.register_on_joinplayer(function(player)\n')
     
     if os.path.isfile('./texture/res/skybox.png'):
@@ -550,22 +549,22 @@ def ConvertEnv(WorldName):
         skyboxsize_x, skyboxsize_y = skyboximage.size
         skyboxsize4 = skyboxsize_x / 4
         skyboxpart = skyboximage.crop((skyboxsize4*1, skyboxsize4*0, skyboxsize4*2, 0+skyboxsize4))
-        skyboxpart.save('./output/worldmods/' + str(WorldName) + '/textures/skybox1.png')
+        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox1.png')
         skyboxpart = skyboximage.crop((skyboxsize4*2, skyboxsize4*0, skyboxsize4*3, 0+skyboxsize4))
-        skyboxpart.save('./output/worldmods/' + str(WorldName) + '/textures/skybox2.png')
+        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox2.png')
         skyboxpart = skyboximage.crop((skyboxsize4*0, skyboxsize4*1, skyboxsize4*1, skyboxsize4*2))
-        skyboxpart.save('./output/worldmods/' + str(WorldName) + '/textures/skybox3.png')
+        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox3.png')
         skyboxpart = skyboximage.crop((skyboxsize4*1, skyboxsize4*1, skyboxsize4*2, skyboxsize4*2))
-        skyboxpart.save('./output/worldmods/' + str(WorldName) + '/textures/skybox4.png')
+        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox4.png')
         skyboxpart = skyboximage.crop((skyboxsize4*2, skyboxsize4*1, skyboxsize4*3, skyboxsize4*2))
-        skyboxpart.save('./output/worldmods/' + str(WorldName) + '/textures/skybox5.png')
+        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox5.png')
         skyboxpart = skyboximage.crop((skyboxsize4*3, skyboxsize4*1, skyboxsize4*4, skyboxsize4*2))
-        skyboxpart.save('./output/worldmods/' + str(WorldName) + '/textures/skybox6.png')
+        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox6.png')
     
-    
+        initfile.write('\tplayer:override_day_night_ratio(1)\n')
         initfile.write('\tplayer:set_sky({\n')
         initfile.write('\t\ttype = "skybox",\n')
-        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
+        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformFXR90", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png^[transformR90"},\n')
         initfile.write('\t\tclouds = false\n')
         initfile.write('\t})\n')
         initfile.write('\tplayer:set_sun({visible = false, sunrise_visible = false})\n')
@@ -581,7 +580,7 @@ def ConvertEnv(WorldName):
     initfile.write('end)\n')
     initfile.close() #This close() is important
 
-def ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ, IsTest):
+def ConvertWorld(BlocksModName, fileworldname, MTChunkPosX, MTChunkPosY, MTChunkPosZ, IsTest):
     global CC_RealWorldSizeX
     global CC_RealWorldSizeY
     global CC_RealWorldSizeZ
@@ -607,7 +606,7 @@ def ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ, IsTest):
     MT_RealCurrentChunkX = 0
     ConversionComplete = 0
     
-    mapsqlfile = sqlite3.connect("./output/map.sqlite")
+    mapsqlfile = sqlite3.connect("./" + fileworldname + "/map.sqlite")
     mapsqlfilecur = mapsqlfile.cursor()
     mapsqlfilecur.execute("CREATE TABLE IF NOT EXISTS `blocks` (\
     `pos` INT NOT NULL PRIMARY KEY, `data` BLOB);")
@@ -724,7 +723,7 @@ def ConvertWorld(BlocksModName, MTChunkPosX, MTChunkPosY, MTChunkPosZ, IsTest):
 def GetSpawnData():
     return [CC_WorldFileData['Spawn'], CC_RealWorldSizeX]
 
-def MT_MakePlayersFile(ccX, ccY, ccZ, ccWX):
+def MT_MakePlayersFile(fileworldname, ccX, ccY, ccZ, ccWX):
     CC_WorldSpawn = CC_WorldFileData['Spawn']
     CC_SpawnX = int(ccX)
     CC_SpawnY = int(ccY)
@@ -732,7 +731,7 @@ def MT_MakePlayersFile(ccX, ccY, ccZ, ccWX):
     
     MT_SpawnX = CC_SpawnX * -1 + ccWX
     
-    playersfile = sqlite3.connect("./output/players.sqlite")
+    playersfile = sqlite3.connect("./" + fileworldname + "/players.sqlite")
     playersfile_cur = playersfile.cursor()
     
     playersfile_cur.execute("CREATE TABLE `player` (`name` VARCHAR(50) NOT NULL,`pitch` NUMERIC(11, 4) NOT NULL,`yaw` NUMERIC(11, 4) NOT NULL,`posX` NUMERIC(11, 4) NOT NULL,`posY` NUMERIC(11, 4) NOT NULL,`posZ` NUMERIC(11, 4) NOT NULL,`hp` INT NOT NULL,`breath` INT NOT NULL,`creation_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,`modification_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY (`name`))")
@@ -763,19 +762,19 @@ def MT_MakePlayersFile(ccX, ccY, ccZ, ccWX):
     playersfile.commit()
     playersfile.close()
 
-def MT_Final(WorldName):
-    worldmtfile = open("output/world.mt", "w")
+def MT_Final(WorldName, fileworldname):
+    worldmtfile = open("./" + fileworldname + "/world.mt", "w")
     worldmtfile.write('enable_damage = true\n')
     worldmtfile.write('creative_mode = true\n')
     worldmtfile.write('auth_backend = sqlite3\n')
     worldmtfile.write('player_backend = sqlite3\n')
     worldmtfile.write('backend = sqlite3\n')
     worldmtfile.write('gameid = minetest\n')
-    worldmtfile.write('world_name = ' + str(WorldName) + '\n')
+    worldmtfile.write('world_name = ' + str(fileworldname) + '\n')
     worldmtfile.write('server_announce = false\n')
     worldmtfile.close()
     
-    mapmetafile = open("output/map_meta.txt", "w")
+    mapmetafile = open("./" + fileworldname + "/map_meta.txt", "w")
     mapmetafile.write('mg_flags = caves, dungeons, light, decorations, biomes, ores\n')
     mapmetafile.write('chunksize = 5\n')
     mapmetafile.write('mapgen_limit = 31000\n')
