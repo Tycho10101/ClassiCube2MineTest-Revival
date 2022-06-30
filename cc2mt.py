@@ -236,22 +236,29 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
 
     texturefile = open("./texture/texturefile", "rb")
     texturefilefirstbytes = texturefile.read(4)
-    
+    texfolder = "./texture/zip"
+
     if texturefilefirstbytes == b'PK\x03\x04':
         print('ClassiCube2Minetest: Texture: Download: ZIP File')
         if not os.path.isdir('./texture/zip'):
             os.makedirs('./texture/zip')
         with ZipFile('./texture/texturefile', 'r') as zipObj:
             zipObj.extractall(path='./texture/zip')
+        if not os.path.exists('./texture/zip/terrain.png'):
+            subfolders = [ f.path for f in os.scandir('./texture/zip') if f.is_dir() ]
+            texfolder = subfolders[0]
+            print(texfolder)
     
     if texturefilefirstbytes == b'\x89PNG':
         print('ClassiCube2Minetest: Texture: Download: PNG File')
+        os.makedirs('./texture/zip/')
+        os.rename("./texture/texturefile", "./texture/zip/terrain.png")
     
     if not os.path.isdir('./texture/res'):
         os.makedirs('./texture/res')
-    shutil.copyfile('./texture/zip/terrain.png', './texture/res/terrain.png')
-    if os.path.isfile('./texture/zip/skybox.png'):
-       shutil.copyfile('./texture/zip/skybox.png', './texture/res/skybox.png')
+    shutil.copyfile(texfolder + '/terrain.png', './texture/res/terrain.png')
+    if os.path.isfile(texfolder + '/skybox.png'):
+       shutil.copyfile(texfolder + '/skybox.png', './texture/res/skybox.png')
 
     # ---------------------------- Crop Textures ----------------------------
     print('ClassiCube2Minetest: Texture: Seperate')
@@ -298,9 +305,9 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
     for TextureNumber in range(0, 512):
         TextureAnim[TextureNumber] = [False, BlocksModName + str(TextureNumber), None, None]
 
-    if os.path.isfile('./texture/zip/animations.png'):
-        TextureImageAnim = Image.open(r"./texture/zip/animations.png")
-        with open("./texture/zip/animations.txt") as animationsfile :
+    if os.path.isfile(texfolder + '/animations.png'):
+        TextureImageAnim = Image.open(texfolder + "/animations.png")
+        with open(texfolder + "/animations.txt") as animationsfile :
             for line in animationsfile:
                 AnimParams = line. rstrip('\n').split(' ')
                 if '#' not in AnimParams[0] and len(AnimParams) == 7:
