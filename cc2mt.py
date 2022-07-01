@@ -15,8 +15,6 @@ from os.path import exists
 from PIL import Image
 from zipfile import ZipFile
 
-CPE = 0
-
 def rgb_to_hex(rgb):
     return '%02x%02x%02x' % rgb
 
@@ -70,13 +68,9 @@ def GetTexture(TextureNumber, ExtraTransform):
     TextureSize = TextureAnim[TextureNumber][2]
     Speed = TextureAnim[TextureNumber][3]
     Count = TextureAnim[TextureNumber][4]
-    if Speed == 0:
-        Speed = 1
     if isAnimated == False:
         return '"' + BlocksModName + str(TextureNumber) + '.png' + ExtraTransform + '"'
     if isAnimated == True:
-        print(Count)
-        print(Speed)
         Speed = (Count/Speed)*0.30
         return '{name = "' + str(TextureFileName) + '.png' + ExtraTransform + '",animation = {type = "vertical_frames",aspect_w = ' + str(TextureSize) + ',aspect_h = ' + str(TextureSize) + ',length = ' + str(Speed) + "}}"
 
@@ -84,46 +78,9 @@ def CCLoadMap(CCMapFile):
     global CC_Metadata
     global BlockDef
     global CC_WorldFileData
-    
-    global CloudColor_B
-    global CloudColor_G
-    global CloudColor_R
-    global EdgeBlock
-    global SideBlock
-    global SideLevel
-    global SkyColor_B
-    global SkyColor_G
-    global SkyColor_R
-    global TextureURL
-
     CC_WorldFile = nbtlib.load(CCMapFile)
     CC_WorldFileData = CC_WorldFile['ClassicWorld'] 
     CC_Metadata = CC_WorldFileData['Metadata'] 
-
-
-    if 'CPE' in CC_Metadata:
-        CPE = 1
-        CC_Metadata = CC_Metadata['CPE']
-        print('ClassiCube2Minetest: Get BlockDefinitions')
-        CC_BlockDefinitions = CC_Metadata['BlockDefinitions']
-
-        CC_EnvMapAppearance = CC_Metadata['EnvMapAppearance']
-        TextureURL = str(CC_EnvMapAppearance['TextureURL'])
-        EdgeBlock = str(CC_EnvMapAppearance['EdgeBlock'])
-        SideBlock = str(CC_EnvMapAppearance['SideBlock'])
-        SideLevel = str(CC_EnvMapAppearance['SideLevel'])
-
-        CC_EnvColors = CC_Metadata['EnvColors']
-        CC_SkyColors = CC_EnvColors['Sky']
-        CC_CloudColors = CC_EnvColors['Cloud']
-        SkyColor_R = int(CC_SkyColors['R'])
-        SkyColor_G = int(CC_SkyColors['G'])
-        SkyColor_B = int(CC_SkyColors['B'])
-        CloudColor_R = int(CC_CloudColors['R'])
-        CloudColor_G = int(CC_CloudColors['G'])
-        CloudColor_B = int(CC_CloudColors['B'])
-
-
 
 def ConvertBlocks(BlocksModName_input, fileworldname):
     global BlocksModName
@@ -201,8 +158,10 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
     if not os.path.isdir('./texture/'):
         os.makedirs('./texture/')
 
-    if CPE == 1:
+    if 'CPE' in CC_Metadata:
+        CC_Metadata = CC_Metadata['CPE']
         print('ClassiCube2Minetest: Get BlockDefinitions')
+        CC_BlockDefinitions = CC_Metadata['BlockDefinitions']
 
         for BlockNumber in range(1, 768):
             BlockDefHex = '{:04x}'.format(BlockNumber)
@@ -262,6 +221,7 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
                 BlockDef[BlockNumber][22] = Coords[4]
                 BlockDef[BlockNumber][23] = Coords[5]
 
+        CC_EnvMapAppearance = CC_Metadata['EnvMapAppearance']
         TextureURL = str(CC_EnvMapAppearance['TextureURL'])
         if TextureURL == '':
             TextureURL = "https://www.classicube.net/static/default.zip"
@@ -566,6 +526,17 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
 
 def ConvertEnv(WorldName, fileworldname):
     print('ClassiCube2Minetest: Minetest Mod: Convert Env')
+
+    CC_EnvColors = CC_Metadata['EnvColors']
+    CC_SkyColors = CC_EnvColors['Sky']
+    CC_CloudColors = CC_EnvColors['Cloud']
+    
+    SkyColor_R = int(CC_SkyColors['R'])
+    SkyColor_G = int(CC_SkyColors['G'])
+    SkyColor_B = int(CC_SkyColors['B'])
+    CloudColor_R = int(CC_CloudColors['R'])
+    CloudColor_G = int(CC_CloudColors['G'])
+    CloudColor_B = int(CC_CloudColors['B'])
 
     if not os.path.isdir('./' + fileworldname + '/worldmods/'):
             os.makedirs('./' + fileworldname + '/worldmods/')
