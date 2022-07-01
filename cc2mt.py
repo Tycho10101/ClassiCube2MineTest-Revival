@@ -67,12 +67,11 @@ def GetTexture(TextureNumber, ExtraTransform):
     TextureFileName = TextureAnim[TextureNumber][1]
     TextureSize = TextureAnim[TextureNumber][2]
     Speed = TextureAnim[TextureNumber][3]
+    Count = TextureAnim[TextureNumber][4]
     if isAnimated == False:
         return '"' + BlocksModName + str(TextureNumber) + '.png' + ExtraTransform + '"'
     if isAnimated == True:
-        Speed = Speed+1
-        Speed = Speed+Speed
-        Speed = Speed*0.4
+        Speed = (Count/Speed)*0.30
         return '{name = "' + str(TextureFileName) + '.png' + ExtraTransform + '",animation = {type = "vertical_frames",aspect_w = ' + str(TextureSize) + ',aspect_h = ' + str(TextureSize) + ',length = ' + str(Speed) + "}}"
 
 def CCLoadMap(CCMapFile):
@@ -301,9 +300,9 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
 
     # Animated, TextureName, Size, Speed
     global TextureAnim
-    TextureAnim = [ [ None for y in range( 4 ) ] for x in range( 512 ) ]
+    TextureAnim = [ [ None for y in range( 5 ) ] for x in range( 512 ) ]
     for TextureNumber in range(0, 512):
-        TextureAnim[TextureNumber] = [False, BlocksModName + str(TextureNumber), None, None]
+        TextureAnim[TextureNumber] = [False, BlocksModName + str(TextureNumber), None, None, 1]
 
     if os.path.isfile(texfolder + '/animations.png'):
         TextureImageAnim = Image.open(texfolder + "/animations.png")
@@ -319,7 +318,7 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
                     AnimFramesCount = int(AnimParams[5])
                     AnimTickDelay = int(AnimParams[6])
                     TextureXYOut = AnimTileX + AnimTileY*16
-                    TextureAnim[TextureXYOut] = [True, BlocksModName + str(TextureXYOut) + '_anim', AnimFrameSize,AnimTickDelay]
+                    TextureAnim[TextureXYOut] = [True, BlocksModName + str(TextureXYOut) + '_anim', AnimFrameSize,AnimTickDelay,AnimFramesCount]
         
                     AnimFrames = Image.new("RGBA", (AnimFrameSize, AnimFrameSize*AnimFramesCount), (255, 255, 255, 0))
                     for AnimFrameCount in range(0, AnimFramesCount):
