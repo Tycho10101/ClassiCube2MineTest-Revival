@@ -71,7 +71,7 @@ def GetTexture(TextureNumber, ExtraTransform):
     if isAnimated == False:
         return '"' + BlocksModName + str(TextureNumber) + '.png' + ExtraTransform + '"'
     if isAnimated == True:
-        Speed = (Count/Speed)*0.30
+        Speed = Speed*0.30
         return '{name = "' + str(TextureFileName) + '.png' + ExtraTransform + '",animation = {type = "vertical_frames",aspect_w = ' + str(TextureSize) + ',aspect_h = ' + str(TextureSize) + ',length = ' + str(Speed) + "}}"
 
 def CCLoadMap(CCMapFile):
