@@ -85,7 +85,7 @@ def CCLoadMap(CCMapFile):
 def ConvertBlocks(BlocksModName_input, fileworldname):
     global BlocksModName
     BlocksModName = BlocksModName_input
-    global CC_Metadata
+    global CC_CPE
     BlockDef = [ [ None for y in range( 24 ) ]
                  for x in range( 768 ) ]
     # BlockUsed, BlockName, CollideType, Texture1, Texture2, Texture3, Texture4, Texture5, Texture6, TransmitsLight, WalkSound, FullBright, Shape, BlockDraw, FogR, FogG, FogB, FogDensity, Coords1, Coords2, Coords3, Coords4, Coords5, Coords6
@@ -159,9 +159,9 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
         os.makedirs('./texture/')
 
     if 'CPE' in CC_Metadata:
-        CC_Metadata = CC_Metadata['CPE']
+        CC_CPE = CC_Metadata['CPE']
         print('ClassiCube2Minetest: Get BlockDefinitions')
-        CC_BlockDefinitions = CC_Metadata['BlockDefinitions']
+        CC_BlockDefinitions = CC_CPE['BlockDefinitions']
 
         for BlockNumber in range(1, 768):
             BlockDefHex = '{:04x}'.format(BlockNumber)
@@ -221,7 +221,7 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
                 BlockDef[BlockNumber][22] = Coords[4]
                 BlockDef[BlockNumber][23] = Coords[5]
 
-        CC_EnvMapAppearance = CC_Metadata['EnvMapAppearance']
+        CC_EnvMapAppearance = CC_CPE['EnvMapAppearance']
         TextureURL = str(CC_EnvMapAppearance['TextureURL'])
         if TextureURL == '':
             TextureURL = "https://www.classicube.net/static/default.zip"
@@ -527,65 +527,81 @@ def ConvertBlocks(BlocksModName_input, fileworldname):
 def ConvertEnv(WorldName, fileworldname):
     print('ClassiCube2Minetest: Minetest Mod: Convert Env')
 
-    CC_EnvColors = CC_Metadata['EnvColors']
-    CC_SkyColors = CC_EnvColors['Sky']
-    CC_CloudColors = CC_EnvColors['Cloud']
+    if 'CPE' in CC_Metadata:
+        CC_EnvColors = CC_CPE['EnvColors']
+        CC_SkyColors = CC_EnvColors['Sky']
+        CC_CloudColors = CC_EnvColors['Cloud']
+        
+        SkyColor_R = int(CC_SkyColors['R'])
+        SkyColor_G = int(CC_SkyColors['G'])
+        SkyColor_B = int(CC_SkyColors['B'])
+        CloudColor_R = int(CC_CloudColors['R'])
+        CloudColor_G = int(CC_CloudColors['G'])
+        CloudColor_B = int(CC_CloudColors['B'])
     
-    SkyColor_R = int(CC_SkyColors['R'])
-    SkyColor_G = int(CC_SkyColors['G'])
-    SkyColor_B = int(CC_SkyColors['B'])
-    CloudColor_R = int(CC_CloudColors['R'])
-    CloudColor_G = int(CC_CloudColors['G'])
-    CloudColor_B = int(CC_CloudColors['B'])
+        ExtraEnvFound = 0
+        CloudsHeight = 0
+        CloudsSpeed = 0
 
-    if not os.path.isdir('./' + fileworldname + '/worldmods/'):
-            os.makedirs('./' + fileworldname + '/worldmods/')
- 
-    if not os.path.isdir('./' + fileworldname + '/worldmods/' + WorldName):
-            os.makedirs('./' + fileworldname + '/worldmods/' + WorldName)
+        if 'EnvMapAspect' in CC_CPE:
+            ExtraEnvFound = 1
+            CC_EnvMapAspect = CC_CPE['EnvMapAspect']
+            CloudsHeight = int(CC_EnvMapAspect['CloudsHeight'])
+            CloudsSpeed = int(CC_EnvMapAspect['CloudsSpeed'])
 
-    if not os.path.isdir('./' + fileworldname + '/worldmods/' + WorldName + '/textures/'):
-            os.makedirs('./' + fileworldname + '/worldmods/' + WorldName + '/textures/')
-
-    initfile = open("./" + fileworldname + "/worldmods/" + WorldName + "/init.lua", "w")
-    initfile.write('minetest.register_on_joinplayer(function(player)\n')
+        if not os.path.isdir('./' + fileworldname + '/worldmods/'):
+                os.makedirs('./' + fileworldname + '/worldmods/')
+     
+        if not os.path.isdir('./' + fileworldname + '/worldmods/' + WorldName):
+                os.makedirs('./' + fileworldname + '/worldmods/' + WorldName)
     
-    if os.path.isfile('./texture/res/skybox.png'):
-        skyboximage = Image.open(r"./texture/res/skybox.png")
-        skyboxsize_x, skyboxsize_y = skyboximage.size
-        skyboxsize4 = skyboxsize_x / 4
-        skyboxpart = skyboximage.crop((skyboxsize4*1, skyboxsize4*0, skyboxsize4*2, 0+skyboxsize4))
-        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox1.png')
-        skyboxpart = skyboximage.crop((skyboxsize4*2, skyboxsize4*0, skyboxsize4*3, 0+skyboxsize4))
-        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox2.png')
-        skyboxpart = skyboximage.crop((skyboxsize4*0, skyboxsize4*1, skyboxsize4*1, skyboxsize4*2))
-        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox3.png')
-        skyboxpart = skyboximage.crop((skyboxsize4*1, skyboxsize4*1, skyboxsize4*2, skyboxsize4*2))
-        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox4.png')
-        skyboxpart = skyboximage.crop((skyboxsize4*2, skyboxsize4*1, skyboxsize4*3, skyboxsize4*2))
-        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox5.png')
-        skyboxpart = skyboximage.crop((skyboxsize4*3, skyboxsize4*1, skyboxsize4*4, skyboxsize4*2))
-        skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox6.png')
+        if not os.path.isdir('./' + fileworldname + '/worldmods/' + WorldName + '/textures/'):
+                os.makedirs('./' + fileworldname + '/worldmods/' + WorldName + '/textures/')
     
-        initfile.write('\tplayer:override_day_night_ratio(1)\n')
-        initfile.write('\tplayer:set_sky({\n')
-        initfile.write('\t\ttype = "skybox",\n')
-        initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformFXR90", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png^[transformR90"},\n')
-        initfile.write('\t\tclouds = false\n')
+        initfile = open("./" + fileworldname + "/worldmods/" + WorldName + "/init.lua", "w")
+        initfile.write('minetest.register_on_joinplayer(function(player)\n')
+        
+        if os.path.isfile('./texture/res/skybox.png'):
+            skyboximage = Image.open(r"./texture/res/skybox.png")
+            skyboxsize_x, skyboxsize_y = skyboximage.size
+            skyboxsize4 = skyboxsize_x / 4
+            skyboxpart = skyboximage.crop((skyboxsize4*1, skyboxsize4*0, skyboxsize4*2, 0+skyboxsize4))
+            skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox1.png')
+            skyboxpart = skyboximage.crop((skyboxsize4*2, skyboxsize4*0, skyboxsize4*3, 0+skyboxsize4))
+            skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox2.png')
+            skyboxpart = skyboximage.crop((skyboxsize4*0, skyboxsize4*1, skyboxsize4*1, skyboxsize4*2))
+            skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox3.png')
+            skyboxpart = skyboximage.crop((skyboxsize4*1, skyboxsize4*1, skyboxsize4*2, skyboxsize4*2))
+            skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox4.png')
+            skyboxpart = skyboximage.crop((skyboxsize4*2, skyboxsize4*1, skyboxsize4*3, skyboxsize4*2))
+            skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox5.png')
+            skyboxpart = skyboximage.crop((skyboxsize4*3, skyboxsize4*1, skyboxsize4*4, skyboxsize4*2))
+            skyboxpart.save('./' + fileworldname + '/worldmods/' + str(WorldName) + '/textures/skybox6.png')
+        
+            initfile.write('\tplayer:override_day_night_ratio(1)\n')
+            initfile.write('\tplayer:set_sky({\n')
+            initfile.write('\t\ttype = "skybox",\n')
+            initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformFXR90", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png^[transformR90"},\n')
+            initfile.write('\t\tclouds = false\n')
+            initfile.write('\t})\n')
+            initfile.write('\tplayer:set_sun({visible = false, sunrise_visible = false})\n')
+            initfile.write('\tplayer:set_moon({visible = false})\n')
+            initfile.write('\tplayer:set_stars({visible = false})\n')
+        else:
+            if SkyColor_R!=153 and SkyColor_G!=204 and SkyColor_B!=255:
+                initfile.write('\tplayer:set_sky({r=' + str(SkyColor_R) + ', g=' + str(SkyColor_G) + ', b=' + str(SkyColor_B) + '}, "plain", {})\n')
+
+        initfile.write('\tplayer:set_clouds({\n')
+        if ExtraEnvFound == 1:
+            initfile.write('\t\tcolor = {r=' + str(CloudColor_R) + ', g=' + str(CloudColor_G) + ', b=' + str(CloudColor_B) + '},\n')
+            initfile.write('\t\theight = ' + str(float(CloudsHeight)-0.5) + ',\n')
+            initfile.write('\t\tspeed = {x=' + str(CloudsSpeed*-1) + ', z=0}\n')
+        else:
+            initfile.write('\t\tcolor = {r=' + str(CloudColor_R) + ', g=' + str(CloudColor_G) + ', b=' + str(CloudColor_B) + '}\n')
         initfile.write('\t})\n')
-        initfile.write('\tplayer:set_sun({visible = false, sunrise_visible = false})\n')
-        initfile.write('\tplayer:set_moon({visible = false})\n')
-        initfile.write('\tplayer:set_stars({visible = false})\n')
-    else:
-        if SkyColor_R!=153 and SkyColor_G!=204 and SkyColor_B!=255:
-            initfile.write('\tplayer:set_sky({r=' + str(SkyColor_R) + ', g=' + str(SkyColor_G) + ', b=' + str(SkyColor_B) + '}, "plain", {})\n')
+        initfile.write('end)\n')
+        initfile.close() #This close() is important
     
-    initfile.write('\tplayer:set_clouds({\n')
-    initfile.write('\t\tcolor = {r=' + str(CloudColor_R) + ', g=' + str(CloudColor_G) + ', b=' + str(CloudColor_B) + '}\n')
-    initfile.write('\t})\n')
-    initfile.write('end)\n')
-    initfile.close() #This close() is important
-
 def ConvertWorld(BlocksModName, fileworldname, MTChunkPosX, MTChunkPosY, MTChunkPosZ, IsTest):
     global CC_RealWorldSizeX
     global CC_RealWorldSizeY
