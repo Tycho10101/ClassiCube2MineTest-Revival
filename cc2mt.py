@@ -581,7 +581,7 @@ def ConvertEnv(WorldName, fileworldname):
             initfile.write('\tplayer:override_day_night_ratio(1)\n')
             initfile.write('\tplayer:set_sky({\n')
             initfile.write('\t\ttype = "skybox",\n')
-            initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformFXR90", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png^[transformR90"},\n')
+            initfile.write('\t\ttextures = {"skybox1.png^[transformR90", "skybox2.png^[transformFXR90", "skybox3.png", "skybox5.png", "skybox4.png", "skybox6.png"},\n')
             initfile.write('\t\tclouds = false\n')
             initfile.write('\t})\n')
             initfile.write('\tplayer:set_sun({visible = false, sunrise_visible = false})\n')
