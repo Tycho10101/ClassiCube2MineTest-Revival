@@ -595,7 +595,7 @@ def ConvertEnv(WorldName, fileworldname):
         if ExtraEnvFound == 1:
             initfile.write('\t\tcolor = {r=' + str(CloudColor_R) + ', g=' + str(CloudColor_G) + ', b=' + str(CloudColor_B) + '},\n')
             initfile.write('\t\theight = ' + str(float(CloudsHeight)-0.5) + ',\n')
-            initfile.write('\t\tspeed = {x=' + str(CloudsSpeed*-1) + ', z=0}\n')
+            initfile.write('\t\tspeed = {x=' + str(CloudsSpeed) + ', z=0}\n')
         else:
             initfile.write('\t\tcolor = {r=' + str(CloudColor_R) + ', g=' + str(CloudColor_G) + ', b=' + str(CloudColor_B) + '}\n')
         initfile.write('\t})\n')
