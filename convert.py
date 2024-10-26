@@ -1,5 +1,5 @@
 import argparse
-import mcc2mt
+import cc2mt
 import os
 import shutil
 
@@ -14,19 +14,12 @@ ClassicWorld = args.ClassicWorld
 
 basenamewithext = os.path.basename(ClassicWorld)
 
-worldname = basenamewithext.split(".")[0]
+worldname = basenamewithext.split('.')[0]
 
-mcc2mt.CCLoadMap(ClassicWorld)
-mcc2mt.ConvertBlocks(MapName, worldname)  # blocks_modname
-mcc2mt.ConvertEnv(MapName + "world", worldname)  # blocks_worldname
-shutil.rmtree("./texture")
-mcc2mt.ConvertWorld(MapName, worldname, 0, 0, 0, False)  # using blocks_modname blocks
-CW_WorldSpawn = mcc2mt.GetSpawnData()
-mcc2mt.MT_MakePlayersFile(
-    worldname,
-    int(CW_WorldSpawn[0]["X"]),
-    int(CW_WorldSpawn[0]["Y"]),
-    int(CW_WorldSpawn[0]["Z"]),
-    CW_WorldSpawn[1],
-)
-mcc2mt.MT_Final(MapName, worldname)  # worldname
+cc2mt.CCLoadMap(ClassicWorld)
+cc2mt.ConvertBlocks(MapName, worldname) #blocks_modname
+cc2mt.ConvertEnv(MapName + 'world', worldname) #blocks_worldname
+cc2mt.ConvertWorld(MapName, worldname, 0, 0, 0, False) #using blocks_modname blocks
+CC_WorldSpawn = cc2mt.GetSpawnData()
+cc2mt.MT_MakePlayersFile(worldname, int(CC_WorldSpawn[0]['X']), int(CC_WorldSpawn[0]['Y']), int(CC_WorldSpawn[0]['Z']), CC_WorldSpawn[1])
+cc2mt.MT_Final(MapName, worldname) #worldname

@@ -1,6 +1,6 @@
-# MCClassic2Minetest
+# ClassiCube2Minetest
 
-Converts Minecraft Classic/Classicube Maps to Minetest Worlds
+Converts Classicube Maps to Minetest Worlds
 
 ### Required 
 
